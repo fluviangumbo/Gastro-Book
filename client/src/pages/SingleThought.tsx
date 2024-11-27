@@ -1,9 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import CommentList from '../components/CommentList/index.tsx';
-import CommentForm from '../components/CommentForm/index.tsx';
-
 import { QUERY_SINGLE_THOUGHT } from '../utils/queries.ts';
 
 const SingleThought = () => {
@@ -41,10 +38,10 @@ const SingleThought = () => {
       </div>
 
       <div className="my-5">
-        <CommentList comments={thought.comments} />
+        <p>Component Here</p>
       </div>
       <div className="m-3 p-4" style={{ border: '1px dotted #1a1a1a' }}>
-        <CommentForm thoughtId={thought._id} />
+        <p>Component Here</p>
       </div>
     </div>
   );

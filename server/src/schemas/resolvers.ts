@@ -1,4 +1,4 @@
-import { Thought, User } from '../models/index.js';
+import { User } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js'; 
 
 // Define types for the arguments
@@ -19,26 +19,26 @@ interface UserArgs {
   username: string;
 }
 
-interface ThoughtArgs {
-  thoughtId: string;
-}
+// interface ThoughtArgs {
+//   thoughtId: string;
+// }
 
-interface AddThoughtArgs {
-  input:{
-    thoughtText: string;
-    thoughtAuthor: string;
-  }
-}
+// interface AddThoughtArgs {
+//   input:{
+//     thoughtText: string;
+//     thoughtAuthor: string;
+//   }
+// }
 
-interface AddCommentArgs {
-  thoughtId: string;
-  commentText: string;
-}
+// interface AddCommentArgs {
+//   thoughtId: string;
+//   commentText: string;
+// }
 
-interface RemoveCommentArgs {
-  thoughtId: string;
-  commentId: string;
-}
+// interface RemoveCommentArgs {
+//   thoughtId: string;
+//   commentId: string;
+// }
 
 const resolvers = {
   Query: {
@@ -48,12 +48,12 @@ const resolvers = {
     user: async (_parent: any, { username }: UserArgs) => {
       return User.findOne({ username }).populate('thoughts');
     },
-    thoughts: async () => {
-      return await Thought.find().sort({ createdAt: -1 });
-    },
-    thought: async (_parent: any, { thoughtId }: ThoughtArgs) => {
-      return await Thought.findOne({ _id: thoughtId });
-    },
+    // thoughts: async () => {
+    //   return await Thought.find().sort({ createdAt: -1 });
+    // },
+    // thought: async (_parent: any, { thoughtId }: ThoughtArgs) => {
+    //   return await Thought.findOne({ _id: thoughtId });
+    // },
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
@@ -100,74 +100,74 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    addThought: async (_parent: any, { input }: AddThoughtArgs, context: any) => {
-      if (context.user) {
-        const thought = await Thought.create({ ...input });
+    // addThought: async (_parent: any, { input }: AddThoughtArgs, context: any) => {
+    //   if (context.user) {
+    //     const thought = await Thought.create({ ...input });
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { thoughts: thought._id } }
-        );
+    //     await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { thoughts: thought._id } }
+    //     );
 
-        return thought;
-      }
-      throw AuthenticationError;
-      ('You need to be logged in!');
-    },
-    addComment: async (_parent: any, { thoughtId, commentText }: AddCommentArgs, context: any) => {
-      if (context.user) {
-        return Thought.findOneAndUpdate(
-          { _id: thoughtId },
-          {
-            $addToSet: {
-              comments: { commentText, commentAuthor: context.user.username },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-      throw AuthenticationError;
-    },
-    removeThought: async (_parent: any, { thoughtId }: ThoughtArgs, context: any) => {
-      if (context.user) {
-        const thought = await Thought.findOneAndDelete({
-          _id: thoughtId,
-          thoughtAuthor: context.user.username,
-        });
+    //     return thought;
+    //   }
+    //   throw AuthenticationError;
+    //   ('You need to be logged in!');
+    // },
+    // addComment: async (_parent: any, { thoughtId, commentText }: AddCommentArgs, context: any) => {
+    //   if (context.user) {
+    //     return Thought.findOneAndUpdate(
+    //       { _id: thoughtId },
+    //       {
+    //         $addToSet: {
+    //           comments: { commentText, commentAuthor: context.user.username },
+    //         },
+    //       },
+    //       {
+    //         new: true,
+    //         runValidators: true,
+    //       }
+    //     );
+    //   }
+    //   throw AuthenticationError;
+    // },
+    // removeThought: async (_parent: any, { thoughtId }: ThoughtArgs, context: any) => {
+    //   if (context.user) {
+    //     const thought = await Thought.findOneAndDelete({
+    //       _id: thoughtId,
+    //       thoughtAuthor: context.user.username,
+    //     });
 
-        if(!thought){
-          throw AuthenticationError;
-        }
+    //     if(!thought){
+    //       throw AuthenticationError;
+    //     }
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { thoughts: thought._id } }
-        );
+    //     await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $pull: { thoughts: thought._id } }
+    //     );
 
-        return thought;
-      }
-      throw AuthenticationError;
-    },
-    removeComment: async (_parent: any, { thoughtId, commentId }: RemoveCommentArgs, context: any) => {
-      if (context.user) {
-        return Thought.findOneAndUpdate(
-          { _id: thoughtId },
-          {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          { new: true }
-        );
-      }
-      throw AuthenticationError;
-    },
+    //     return thought;
+    //   }
+    //   throw AuthenticationError;
+    // },
+    // removeComment: async (_parent: any, { thoughtId, commentId }: RemoveCommentArgs, context: any) => {
+    //   if (context.user) {
+    //     return Thought.findOneAndUpdate(
+    //       { _id: thoughtId },
+    //       {
+    //         $pull: {
+    //           comments: {
+    //             _id: commentId,
+    //             commentAuthor: context.user.username,
+    //           },
+    //         },
+    //       },
+    //       { new: true }
+    //     );
+    //   }
+    //   throw AuthenticationError;
+    // },
   },
 };
 
