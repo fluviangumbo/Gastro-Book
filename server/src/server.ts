@@ -5,10 +5,10 @@ import { ApolloServer } from '@apollo/server';// Note: Import from @apollo/serve
 import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './utils/auth.js';
-import { dirname } from 'node:path';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
     
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const server = new ApolloServer({
   typeDefs,
