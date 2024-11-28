@@ -1,4 +1,5 @@
-// Week18-Activity26-Solved - we didint think we needed itimport { Schema, model, Document } from 'mongoose';
+// Week18-Activity26-Solved - we didint think we needed it
+import { Schema, model, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 // Define an interface for the User document
@@ -10,7 +11,7 @@ interface IRecipe extends Document {
   instructions: string;
   
   recipe: Schema.Types.ObjectId[];
-  isCorrectPassword(password: string): Promise<boolean>;
+  
 }
 
 // Define the schema for the Recipe document
@@ -44,10 +45,10 @@ const recipeSchema = new Schema<IRecipe>(
       required: true,
       unique: false,
     },
-    recipe: {
+    recipe: [{
       type: Schema.Types.ObjectId,
       ref: 'Recipe',
-    },
+    }],
   },
   {
     timestamps: true,
@@ -56,19 +57,10 @@ const recipeSchema = new Schema<IRecipe>(
   }
 );
 
-recipeSchema.pre<IRecipe>('save', async function (next) {
-  if (this.isNew || this.isModified('')) {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-  }
-
-  next();
-});
-
 recipeSchema.methods.isCorrectPassword = async function (password: string): Promise<boolean> {
   return bcrypt.compare(password, this.password);
 };
 
-const User = model<IRecipe>('Recipe', recipeSchema);
+const Recipe = model<IRecipe>('Recipe', recipeSchema);
 
-export default User;
+export default Recipe;
