@@ -4,7 +4,7 @@ const typeDefs = `
     username: String
     email: String
     password: String
-    thoughts: [Thought]!
+    recipes: [Recipe]!
   }
 
   type Thought {
@@ -40,18 +40,16 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    thoughts: [Thought]!
-    thought(thoughtId: ID!): Thought
+    recipes: [Recipe]!
+    recipe(RecipeId: ID!): Recipe
     me: User
   }
 
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
-    addThought(input: ThoughtInput!): Thought
-    addComment(thoughtId: ID!, commentText: String!): Thought
-    removeThought(thoughtId: ID!): Thought
-    removeComment(thoughtId: ID!, commentId: ID!): Thought
+    addRecipe(input: RecipeInput!): Recipe
+    removeRecipe(recipeId: ID!): Recipe
   }
 `;
 
