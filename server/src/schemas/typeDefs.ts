@@ -1,14 +1,14 @@
 const typeDefs = `
   type User {
-    _idUser: ID
+    _id: ID
     username: String
     email: String
     password: String
-    recipes: string
+    recipe: string
   }
 
   type Recipe {
-    _idRecipe: ID
+    _id: ID
     recipeName: String
     recipeAuthor: [User!]
     servingSize: String
@@ -45,7 +45,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    recipes: [Recipes]!
+    recipe: [Recipe]!
     recipeName: [Recipe]!
     me: User
   }
