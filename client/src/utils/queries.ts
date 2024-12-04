@@ -16,16 +16,7 @@ export const GET_USER = gql`
       _id
       username
       email
-    }
-  }
-`;
-
-export const GET_RECIPES = gql`
-  query GetRecipes {
-    recipe {
-      _id
-      recipeName
-      recipeAuthor {
+      Recipe {
         _id
         username
       }
@@ -41,9 +32,9 @@ export const GET_RECIPES = gql`
   }
 `;
 
-export const GET_RECIPE_BY_NAME = gql`
-  query GetRecipeByName($recipeName: String!) {
-    recipeName(recipeName: $recipeName) {
+export const QUERY_RECIPE = gql`
+  query getRecipe {
+    re {
       _id
       recipeName
       recipeAuthor {
