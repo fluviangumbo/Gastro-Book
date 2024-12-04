@@ -1,42 +1,51 @@
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Button, Typography, Container } from '@mui/material';
 
 const Footer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    if(window.history.length > 1) { //Check if there is a previous page in the history stack
+    if (window.history.length > 1) {
       navigate(-1);
     } else {
       navigate('/');
     }
-  }
+  };
 
   return (
-    <footer className="w-100 mt-auto bg-secondary p-4">
-      <div className="container text-center mb-5">
+    <Box
+      sx={{
+        width: '100%',
+        marginTop: 'auto',
+        backgroundColor: 'primary.main',
+        padding: 4,
+        textAlign: 'center',
+      }}
+    >
+      <Container>
         {location.pathname !== '/' && (
-          <button
-            className="btn btn-dark mb-3"
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              marginBottom: 3,
+            }}
             onClick={handleGoBack}
           >
             &larr; Go Back
-          </button>
+          </Button>
         )}
-        <h4>
+        <Typography variant="h4">
           Made with{' '}
-          <span
-            className="emoji"
-            role="img"
-            aria-label="heart"
-            aria-hidden="false"
-          >
+          <span role="img" aria-label="heart" aria-hidden="false">
             ❤️
           </span>{' '}
           by the Tech Thoughts team.
-        </h4>
-      </div>
-    </footer>
+        </Typography>
+      </Container>
+    </Box>
   );
 };
 
