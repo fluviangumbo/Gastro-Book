@@ -1,50 +1,81 @@
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+// import { useParams } from 'react-router-dom';
+// import { useQuery } from '@apollo/client';
+// import * as React from 'react';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
-import { QUERY_SINGLE_RECIPE } from '../utils/queries.ts';
+// import { QUERY_SINGLE_RECIPE } from '../utils/queries.ts';
 
 const SingleRecipe = () => {
-  const { recipeId } = useParams();
+//   const { recipeName } = useParams();
 
-  const { loading, data } = useQuery(QUERY_SINGLE_RECIPE, {
-    variables: { recipeId: recipeId },
-  });
+//   const { loading, data } = useQuery(QUERY_SINGLE_RECIPE, {
+//     variables: { recipeName: recipeName },
+//   });
 
-  const recipe = data?.recipe || {};
+//   const recipe = data?.recipe || {};
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
+    const recipe: any = {
+        recipeName: "Creme de la Creme de la Edgar",
+        recipeAuthor: {
+            username: "toddFarkus123"
+        },
+        recipeDescription: "The best meal an aristocat could ask for!",
+        ingredients: [
+            "Evaporated Milk",
+            "Heavy Cream",
+            "Sugar",
+            "Vanilla",
+            "Cinnamon",
+            "Nutmeg",
+            "Whole Milk"
+        ],
+        instructions: [
+            "Combine evaporated milk, heavy cream, and a spoonful of sugar in a saucepan.",
+            "Add a dash of vanilla, nutmeg, and cinnamon.",
+            "Whisk this milky concoction until it’s just beginning to thicken."
+        ]
+    }
+
   return (
-    <div className="my-3">
-      <h3 className="card-header bg-dark text-light p-2 m-0">
-        {recipe.recipeAuthor} <br />
-        <span style={{ fontSize: '1rem' }}>
-          added this recipe on {new Date(Number(recipe.createdAt)).toLocaleString()}
-        </span>
+    <div>
+      <h1>{recipe.recipeName}</h1>
+      <h3>
+        {recipe.recipeAuthor.username}
       </h3>
-      
-
-      <div className="bg-light py-4">
-        <blockquote
-          className="p-4"
-          style={{
-            fontSize: '1.5rem',
-            fontStyle: 'italic',
-            border: '2px dotted #1a1a1a',
-            lineHeight: '1.5',
-          }}
-        >
-          {recipe.recipeDescription}
-        </blockquote>
-      </div>
-
-      <div className="my-5">
-        <p>Component Here</p>
-      </div>
-      <div className="m-3 p-4" style={{ border: '1px dotted #1a1a1a' }}>
-        <p>Component Here</p>
-      </div>
+        {/* <span style={{ fontSize: '1rem' }}>
+          added this recipe on {new Date(Number(recipe.createdAt)).toLocaleString()}
+        </span> */}
+      <p>{recipe.recipeDescription}</p>
+      <Divider />
+      <Box>
+        <List>
+            {
+                recipe.ingredients.map((ingredient: String, i: number) => {
+                    <ListItem disablePadding key={i}>
+                        <ListItemText>{ingredient}</ListItemText>
+                    </ListItem>
+                })
+            }
+        </List>
+      </Box>
+      <Divider />
+      <h2>Instructions:</h2>
+      <List>
+        {
+            recipe.instructions.map((instruction: String, i: number) => {
+                <ListItem>
+                    <ListItemText>{i+1}. {instruction}</ListItemText>
+                </ListItem>
+            })
+        }
+      </List>
     </div>
   );
 };
