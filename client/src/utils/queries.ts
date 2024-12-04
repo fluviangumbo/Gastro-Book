@@ -1,14 +1,31 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_USER = gql`
-  query user($username: String!) {
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      _id
+      username
+      email
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query GetUser($username: String!) {
     user(username: $username) {
       _id
       username
       email
       Recipe {
         _id
-        thoughtText
+        username
+      }
+      servingSize
+      ingredients
+      instructions
+      recipeComments {
+        _idRecipe
+        commentText
         createdAt
       }
     }
@@ -19,42 +36,29 @@ export const QUERY_RECIPE = gql`
   query getRecipe {
     re {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-    }
-  }
-`;
-
-export const QUERY_SINGLE_RECIPE = gql`
-  query getSingleThought($thoughtId: ID!) {
-    thought(thoughtId: $thoughtId) {
-      _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
+      recipeName
+      recipeAuthor {
         _id
+        username
+      }
+      servingSize
+      ingredients
+      instructions
+      recipeComments {
+        _idRecipe
         commentText
-        commentAuthor
         createdAt
       }
     }
   }
 `;
 
-export const QUERY_ME = gql`
-  query me {
+export const GET_ME = gql`
+  query GetMe {
     me {
       _id
       username
       email
-      thoughts {
-        _id
-        thoughtText
-        thoughtAuthor
-        createdAt
-      }
     }
   }
 `;
