@@ -6,7 +6,7 @@ export const QUERY_USER = gql`
       _id
       username
       email
-      thoughts {
+      Recipe {
         _id
         thoughtText
         createdAt
@@ -15,9 +15,9 @@ export const QUERY_USER = gql`
   }
 `;
 
-export const QUERY_THOUGHTS = gql`
-  query getThoughts {
-    thoughts {
+export const QUERY_RECIPE = gql`
+  query getRecipe {
+    re {
       _id
       thoughtText
       thoughtAuthor
@@ -26,7 +26,7 @@ export const QUERY_THOUGHTS = gql`
   }
 `;
 
-export const QUERY_SINGLE_THOUGHT = gql`
+export const QUERY_SINGLE_RECIPE = gql`
   query getSingleThought($thoughtId: ID!) {
     thought(thoughtId: $thoughtId) {
       _id
