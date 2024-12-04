@@ -1,90 +1,56 @@
 import { gql } from '@apollo/client';
 
-const MUTATIONS = {
-  ADD_USER: gql`
-    mutation AddUser($input: UserInput!) {
-      addUser(input: $input) {
-        token
-        user {
-          _id
-          username
-          email
-          recipe
-        }
-      }
-    }
-  `,
-
-  LOGIN: gql`
-    mutation Login($email: String!, $password: String!) {
-      login(email: $email, password: $password) {
-        token
-        user {
-          _id
-          username
-          email
-          recipe
-        }
-      }
-    }
-  `,
-
-  ADD_RECIPE: gql`
-    mutation AddRecipe($input: [RecipeInput]!) {
-      addRecipe(input: $input) {
+export const LOGIN_USER = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
         _id
-        recipeName
-        recipeAuthor {
-          _id
-          username
-          email
-        }
-        servingSize
-        ingredients
-        instructions
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
+        username
       }
     }
-  `,
+  }
+`;
 
-  ADD_COMMENT: gql`
-    mutation AddComment($recipeId: ID!, $commentText: String!) {
-      addComment(recipeId: $recipeId, commentText: $commentText) {
+export const ADD_USER = gql`
+  mutation Mutation($input: UserInput!) {
+  addUser(input: $input) {
+    user {
+      username
+      _id
+    }
+    token
+  }
+}
+`;
+
+export const ADD_THOUGHT = gql`
+  mutation AddThought($input: ThoughtInput!) {
+    addThought(input: $input) {
+      _id
+      thoughtText
+      thoughtAuthor
+      createdAt
+      comments {
         _id
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
+        commentText
       }
     }
-  `,
+  }
+`;
 
-  REMOVE_RECIPE: gql`
-    mutation RemoveRecipe($RecipeId: ID!) {
-      removeRecipe(RecipeId: $RecipeId) {
+export const ADD_COMMENT = gql`
+  mutation addComment($thoughtId: ID!, $commentText: String!) {
+    addComment(thoughtId: $thoughtId, commentText: $commentText) {
+      _id
+      thoughtText
+      thoughtAuthor
+      createdAt
+      comments {
         _id
-        recipeName
+        commentText
+        createdAt
       }
     }
-  `,
-
-  REMOVE_COMMENT: gql`
-    mutation RemoveComment($recipeId: ID!, $commentId: ID!) {
-      removeComment(recipeId: $recipeId, commentId: $commentId) {
-        _id
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
-      }
-    }
-  `,
-};
-
-export default MUTATIONS;
+  }
+`;

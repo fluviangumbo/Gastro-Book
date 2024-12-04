@@ -1,80 +1,60 @@
 import { gql } from '@apollo/client';
 
-const QUERIES = {
-  GET_USERS: gql`
-    query GetUsers {
-      users {
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      _id
+      username
+      email
+      thoughts {
         _id
-        username
-        email
-        recipe
+        thoughtText
+        createdAt
       }
     }
-  `,
+  }
+`;
 
-  GET_USER: gql`
-    query GetUser($username: String!) {
-      user(username: $username) {
+export const QUERY_THOUGHTS = gql`
+  query getThoughts {
+    thoughts {
+      _id
+      thoughtText
+      thoughtAuthor
+      createdAt
+    }
+  }
+`;
+
+export const QUERY_SINGLE_THOUGHT = gql`
+  query getSingleThought($thoughtId: ID!) {
+    thought(thoughtId: $thoughtId) {
+      _id
+      thoughtText
+      thoughtAuthor
+      createdAt
+      comments {
         _id
-        username
-        email
-        recipe
+        commentText
+        commentAuthor
+        createdAt
       }
     }
-  `,
+  }
+`;
 
-  GET_RECIPES: gql`
-    query GetRecipes {
-      recipe {
+export const QUERY_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+      thoughts {
         _id
-        recipeName
-        recipeAuthor {
-          _id
-          username
-        }
-        servingSize
-        ingredients
-        instructions
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
+        thoughtText
+        thoughtAuthor
+        createdAt
       }
     }
-  `,
-
-  GET_RECIPE_BY_NAME: gql`
-    query GetRecipeByName($recipeName: String!) {
-      recipeName(recipeName: $recipeName) {
-        _id
-        recipeName
-        recipeAuthor {
-          _id
-          username
-        }
-        servingSize
-        ingredients
-        instructions
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
-      }
-    }
-  `,
-
-  GET_ME: gql`
-    query GetMe {
-      me {
-        _id
-        username
-        email
-        recipe
-      }
-    }
-  `,
-};
-
-export default QUERIES;
+  }
+`;
