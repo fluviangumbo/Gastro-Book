@@ -25,3 +25,5 @@ yarn-error.log*
 
 /server/dist
 /server/node_modules
+/server/src/seeds/houseUser.json
+/server/src/seeds/starterRecipes.json
