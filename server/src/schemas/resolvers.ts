@@ -1,4 +1,4 @@
-import { User } from '../models/index.js';
+import { User, Recipe } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js'; 
 
 // Define types for the arguments
@@ -19,6 +19,26 @@ interface UserArgs {
   username: string;
 }
 
+interface RecipeArgs {
+  recipeId: string;
+}
+
+interface AddRecipeArgs {
+  input: {
+    recipeName: string;
+    recipeAuthor: string;
+    servingSize: string;
+    ingredients: string[];
+    instructions: string[];
+    tags: string[];
+  }
+}
+
+interface RemoveRecipeArgs {
+  recipeId: string;
+  recipeAuthor: string;
+}
+
 const resolvers = {
   Query: {
     users: async () => {
@@ -36,6 +56,12 @@ const resolvers = {
       }
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError('Could not authenticate user.');
+    },
+    recipes: async () => {
+      return Recipe.find();
+    },
+    recipe: async (_parent: any, { recipeId }: RecipeArgs) => {
+      return Recipe.findOne({ recipeId });
     },
   },
   Mutation: {
@@ -72,6 +98,25 @@ const resolvers = {
     
       // Return the token and the user
       return { token, user };
+    },
+    addRecipe: async (_parent: any, { input }: AddRecipeArgs) => {
+      return await User.findOneAndUpdate(
+        { _id: input.recipeAuthor },
+        {
+          $addToSet: { recipes: { ...input } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    },
+    removeRecipe: async (_parent: any, { recipeId, recipeAuthor }: RemoveRecipeArgs) => {
+      return await User.findOneAndUpdate(
+        { _id: recipeAuthor },
+        { $pull: { recipes: { _id: recipeId } } },
+        { new: true }
+      );
     },
   },
 };
