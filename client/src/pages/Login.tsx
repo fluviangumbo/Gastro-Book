@@ -1,41 +1,41 @@
-// import { useState, type FormEvent, type ChangeEvent } from 'react';
-// import { Link } from 'react-router-dom';
-// import { useMutation } from '@apollo/client';
-// // import { LOGIN_USER } from '../utils/mutations';
+import { useState, type FormEvent, type ChangeEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../utils/mutations';
 
-// import Auth from '../utils/auth';
+import Auth from '../utils/auth';
 
 const Login = () => {
-  // const [formState, setFormState] = useState({ email: '', password: '' });
-  // // const [login, { error, data }] = useMutation(LOGIN_USER);
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error, data }] = useMutation(LOGIN);
 
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  //   setFormState({
-  //     ...formState,
-  //     [name]: value,
-  //   });
-  // };
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
-  // const handleFormSubmit = async (event: FormEvent) => {
-  //   event.preventDefault();
-  //   console.log(formState);
-  //   try {
-  //     const { data } = await login({
-  //       variables: { ...formState },
-  //     });
+  const handleFormSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    console.log(formState);
+    try {
+      const { data } = await login({
+        variables: { ...formState },
+      });
 
-  //     Auth.login(data.login.token);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
 
-  //   setFormState({
-  //     email: '',
-  //     password: '',
-  //   });
-  // };
+    setFormState({
+      email: '',
+      password: '',
+    });
+  };
 
   return (
     <main className="flex-row justify-center mb-4">
@@ -43,7 +43,7 @@ const Login = () => {
         <div className="card">
           <h4 className="card-header bg-dark text-light p-2">Login</h4>
           <div className="card-body">
-            {/* {data ? (
+            {data ? (
               <p>
                 Success! Enjoy using the{' '}
                 <Link to="/">GastroBook.</Link>
@@ -74,13 +74,13 @@ const Login = () => {
                   Submit
                 </button>
               </form>
-            )} */}
+            )}
 
-            {/* {error && (
+            {error && (
               <div className="my-3 p-3 bg-danger text-white">
                 {error.message}
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>
