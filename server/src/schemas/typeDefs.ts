@@ -4,37 +4,34 @@ const typeDefs = `
     username: String
     email: String
     password: String
-    recipe: string
+    recipes: [Recipe]
   }
 
   type Recipe {
     _id: ID
     recipeName: String
-    recipeAuthor: [User!]
+    recipeAuthor: ID
+    recipeDescription: String
     servingSize: String
-    ingredients: String
-    instructions: String
-    recipeComments: [Comment]!
-  }
-
-  type Comment {
-    _idRecipe: ID
-    commentText: String
-    createdAt: String
+    ingredients: [String]
+    instructions: [String]
+    tags: [String]
   }
 
   input RecipeInput {
-    recipeName: String!
-    recipeAuthor: String!
+    recipeName: String
+    recipeAuthor: ID
+    recipeDescription: String
     servingSize: String
-    ingredients: String!
-    instructions: String! 
+    ingredients: [String]
+    instructions: [String]
+    tags: [String]
   }
 
   input UserInput {
-    username: String!
-    email: String!
-    password: String!
+    username: String
+    email: String
+    password: String
   }
   
   type Auth {
@@ -45,19 +42,26 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    recipe: [Recipe]!
-    recipeName: [Recipe]!
     me: User
+    recipes: [Recipe]!
+    recipe(recipeId: ID!): Recipe
   }
 
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
-    addRecipe(input: [Recipe]!): Recipe
-    addComment(recipeId: ID!, commentText: String!): Recipe
-    removeRecipe(RecipeId: ID!): Recipe
-    removeComment(recipeId: ID!, commentId: ID!): Recipe
+    addRecipe(input: RecipeInput!): User
+    removeRecipe(recipeId: ID!): User
   }
 `;
 
 export default typeDefs;
+
+  // type Comment {
+  //   _idRecipe: ID
+  //   commentText: String
+  //   createdAt: String
+  // }
+
+  // Mutation: addComment(recipeId: ID!, commentText: String!): Recipe
+  // Mutation: removeComment(recipeId: ID!, commentId: ID!): Recipe

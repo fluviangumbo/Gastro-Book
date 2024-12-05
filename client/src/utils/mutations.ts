@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const ADD_USER = gql`
-  mutation AddUser($input: UserInput!) {
+  mutation addUser($input: UserInput!) {
     addUser(input: $input) {
       token
       user {
@@ -14,20 +14,19 @@ export const ADD_USER = gql`
 `;
 
 export const LOGIN = gql`
-  mutation Login($email: String!, $password: String!) {
+  mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
         _id
         username
-        email
       }
     }
   }
 `;
 
 export const ADD_RECIPE = gql`
-  mutation AddRecipe($input: [RecipeInput]!) {
+  mutation addRecipe($input: RecipeInput!) {
     addRecipe(input: $input) {
       _id
       recipes {
@@ -35,41 +34,22 @@ export const ADD_RECIPE = gql`
         recipeAuthor {
           _id
           username
-          email
         }
+        recipeDescription
         servingSize
         ingredients
         instructions
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
-      }
-    }
-  }
-`;
-
-export const ADD_COMMENT = gql`
-  mutation AddComment($recipeId: ID!, $commentText: String!) {
-    addComment(recipeId: $recipeId, commentText: $commentText) {
-      _id
-      recipes {
-        recipeName
-        recipeComments {
-          _idRecipe
-          commentText
-          createdAt
-        }
+        tags
       }
     }
   }
 `;
 
 export const REMOVE_RECIPE = gql`
-  mutation RemoveRecipe($RecipeId: ID!) {
-    removeRecipe(RecipeId: $RecipeId) {
+  mutation removeRecipe($recipeId: ID!) {
+    removeRecipe(recipeId: $recipeId) {
       _id
+      username
       recipes {
         recipeName
       }
@@ -77,16 +57,32 @@ export const REMOVE_RECIPE = gql`
   }
 `;
 
-export const REMOVE_COMMENT = gql`
-  mutation RemoveComment($recipeId: ID!, $commentId: ID!) {
-    removeComment(recipeId: $recipeId, commentId: $commentId) {
-      _id
-      recipes {
-        recipeComments {
-          _idRecipe
-          commentText
-        }
-      }
-    }
-  }
-`;
+// export const REMOVE_COMMENT = gql`
+//   mutation RemoveComment($recipeId: ID!, $commentId: ID!) {
+//     removeComment(recipeId: $recipeId, commentId: $commentId) {
+//       _id
+//       recipes {
+//         recipeComments {
+//           _idRecipe
+//           commentText
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// export const ADD_COMMENT = gql`
+//   mutation AddComment($recipeId: ID!, $commentText: String!) {
+//     addComment(recipeId: $recipeId, commentText: $commentText) {
+//       _id
+//       recipes {
+//         recipeName
+//         recipeComments {
+//           _idRecipe
+//           commentText
+//           createdAt
+//         }
+//       }
+//     }
+//   }
+// `;

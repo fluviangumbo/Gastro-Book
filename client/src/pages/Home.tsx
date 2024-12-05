@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client';
 
-import { QUERY_RECIPE } from '../utils/queries.ts';
+import { QUERY_RECIPES } from '../utils/queries.ts';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_RECIPE);
+  const { loading, data } = useQuery(QUERY_RECIPES);
   console.log(data) // Remove this eventually
- 
+  const recipes = data?.thoughts || [];
+  console.log(recipes);
 
   return (
     <main>
