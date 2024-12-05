@@ -16,14 +16,12 @@ export const GET_USER = gql`
       _id
       username
       email
-      Recipe {
+      recipes {
         _id
-        username
+        recipeName
+        servingSize
+        tags
       }
-      servingSize
-      ingredients
-      instructions
-      tags
     }
   }
 `;
