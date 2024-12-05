@@ -30,12 +30,10 @@ const userSchema = new Schema<IUser>(
       required: true,
       minlength: 5,
     },
-    recipes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Recipe',
-      },
-    ],
+    recipes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Recipe'
+    }],
   },
   {
     timestamps: true,

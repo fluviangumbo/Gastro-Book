@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GET_USERS = gql`
-  query GetUsers {
+  query users {
     users {
       _id
       username
@@ -11,54 +11,62 @@ export const GET_USERS = gql`
 `;
 
 export const GET_USER = gql`
-  query GetUser($username: String!) {
+  query user($username: String!) {
     user(username: $username) {
       _id
       username
       email
-      Recipe {
+      recipes {
         _id
-        username
-      }
-      servingSize
-      ingredients
-      instructions
-      recipeComments {
-        _idRecipe
-        commentText
-        createdAt
+        recipeName
+        servingSize
+        tags
       }
     }
   }
 `;
 
+export const QUERY_RECIPES = gql`
+  query recipes {
+    recipe {
+      _id
+      recipeName
+      servingSize
+      tags
+    }
+  }
+`;
+
 export const QUERY_RECIPE = gql`
-  query getRecipe {
-    re {
+  query recipe($recipeId: ID!) {
+    recipe {
       _id
       recipeName
       recipeAuthor {
         _id
         username
       }
+      recipeDescription
       servingSize
       ingredients
       instructions
-      recipeComments {
-        _idRecipe
-        commentText
-        createdAt
-      }
+      tags
     }
   }
 `;
 
 export const GET_ME = gql`
-  query GetMe {
+  query me {
     me {
       _id
       username
       email
+      recipes {
+        _id
+        recipeName
+        servingSize
+        tags
+      }
     }
   }
 `;
