@@ -46,6 +46,7 @@ export const QUERY_RECIPE = gql`
         _id
         username
       }
+      recipeDescription
       servingSize
       ingredients
       instructions
@@ -64,8 +65,6 @@ export const GET_ME = gql`
         _id
         recipeName
         servingSize
-        ingredients
-        instructions
         tags
       }
     }

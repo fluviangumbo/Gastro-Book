@@ -11,6 +11,7 @@ const typeDefs = `
     _id: ID
     recipeName: String
     recipeAuthor: ID
+    recipeDescription: String
     servingSize: String
     ingredients: [String]
     instructions: [String]
@@ -20,6 +21,7 @@ const typeDefs = `
   input RecipeInput {
     recipeName: String
     recipeAuthor: ID
+    recipeDescription: String
     servingSize: String
     ingredients: [String]
     instructions: [String]

@@ -27,6 +27,7 @@ interface AddRecipeArgs {
   input: {
     recipeName: string;
     recipeAuthor: string;
+    recipeDescription: string;
     servingSize: string;
     ingredients: string[];
     instructions: string[];

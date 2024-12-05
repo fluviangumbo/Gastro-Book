@@ -35,6 +35,7 @@ export const ADD_RECIPE = gql`
           _id
           username
         }
+        recipeDescription
         servingSize
         ingredients
         instructions
