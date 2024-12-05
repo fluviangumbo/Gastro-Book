@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import { QUERY_SINGLE_THOUGHT } from '../utils/queries.ts';
+import { QUERY_RECIPE } from '../utils/queries.ts';
 
-const SingleThought = () => {
-  const { thoughtId } = useParams();
+const SingleRecipe = () => {
+  const { recipeId } = useParams();
 
-  const { loading, data } = useQuery(QUERY_SINGLE_THOUGHT, {
-    variables: { thoughtId: thoughtId },
+  const { loading, data } = useQuery(QUERY_RECIPE, {
+    variables: { recipeId: recipeId },
   });
 
-  const thought = data?.thought || {};
+  const recipe = data?.recipe || {};
 
   if (loading) {
     return <div>Loading...</div>;
@@ -18,9 +18,9 @@ const SingleThought = () => {
   return (
     <div className="my-3">
       <h3 className="card-header bg-dark text-light p-2 m-0">
-        {thought.thoughtAuthor} <br />
+        {recipe.recipeAuthor} <br />
         <span style={{ fontSize: '1rem' }}>
-          had this thought on {new Date(Number(thought.createdAt)).toLocaleString()}
+          had this recipe on {new Date(Number(recipe.createdAt)).toLocaleString()}
         </span>
       </h3>
       <div className="bg-light py-4">
@@ -33,7 +33,7 @@ const SingleThought = () => {
             lineHeight: '1.5',
           }}
         >
-          {thought.thoughtText}
+          {recipe.recipeText}
         </blockquote>
       </div>
 
@@ -47,4 +47,4 @@ const SingleThought = () => {
   );
 };
 
-export default SingleThought;
+export default SingleRecipe;

@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
 
-import { QUERY_THOUGHTS } from '../utils/queries.ts';
+import { QUERY_RECIPE } from '../utils/queries.ts';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_THOUGHTS);
+  const { loading, data } = useQuery(QUERY_RECIPE);
   console.log(data) // Remove this eventually
-  // const thoughts = data?.thoughts || [];
+ 
 
   return (
     <main>
