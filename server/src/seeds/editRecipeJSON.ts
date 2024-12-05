@@ -1,16 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { User } from '../models/index'
 import { fileURLToPath } from 'url';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 // THIS FILE IS FOR SEEDING PURPOSES ONLY
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const houseUser = await User.findById('675238440b3a3e8ce96ad049');
-const houseId = houseUser?._id as unknown as Schema.Types.ObjectId;
 
 interface OriginalRecipe {
     Name: string;
@@ -23,7 +19,7 @@ interface OriginalRecipe {
 
 interface TransformedRecipe {
     recipeName: string;
-    recipeAuthor: Schema.Types.ObjectId;
+    recipeAuthor: Types.ObjectId;
     recipeDescription: string;
     servingSize: string;
     ingredients: string[];
@@ -37,7 +33,7 @@ async function editRecipeJSON(inFilePath: string, outFilePath: string) {
 
         const transformedRecipes: TransformedRecipe[] = recipes.map(recipe => ({
             recipeName: recipe.Name,
-            recipeAuthor: houseId,
+            recipeAuthor: new Types.ObjectId('675238440b3a3e8ce96ad049'),
             recipeDescription: recipe.Description,
             servingSize: '2-4',
             ingredients: recipe.Ingredients,
