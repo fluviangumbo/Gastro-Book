@@ -8,6 +8,7 @@ interface IRecipe extends Document {
   servingSize: string;
   ingredients: string[];
   instructions: string[];
+  tags: string[];
 }
 
 // Define the schema for the Recipe document
@@ -40,6 +41,12 @@ const recipeSchema = new Schema<IRecipe>(
       type: String,
       required: true,
       unique: false,
+    }],
+    tags: [{
+      type: String,
+      required: false,
+      unique: false,
+      trim: true,
     }]
   }
 );

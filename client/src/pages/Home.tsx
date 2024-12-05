@@ -1,11 +1,11 @@
-import { useQuery } from '@apollo/client';
+// import { useQuery } from '@apollo/client';
 
-import { QUERY_THOUGHTS } from '../utils/queries.ts';
+// import { QUERY_THOUGHTS } from '../utils/queries.ts';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_THOUGHTS);
-  console.log(data) // Remove this eventually
-  // const thoughts = data?.thoughts || [];
+  // const { loading, data } = useQuery(QUERY_THOUGHTS);
+  // console.log(data) // Remove this eventually
+  // // const thoughts = data?.thoughts || [];
 
   return (
     <main>
@@ -17,11 +17,11 @@ const Home = () => {
           <p>Component Here</p>
         </div>
         <div className="col-12 col-md-8 mb-3">
-          {loading ? (
+          {/* {loading ? (
             <div>Loading...</div>
           ) : (
             <p>Component Here</p> 
-          )}
+          )} */}
         </div>
       </div>
     </main>

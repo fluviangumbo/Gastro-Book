@@ -4,7 +4,7 @@ const typeDefs = `
     username: String
     email: String
     password: String
-    recipe: string
+    recipes: [Recipe]
   }
 
   type Recipe {
