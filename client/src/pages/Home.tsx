@@ -1,30 +1,9 @@
 import { useQuery } from '@apollo/client';
 
 import { QUERY_RECIPES } from '../utils/queries.ts';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Container, Typography } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#869D7A', // Olive green
-    },
-    secondary: {
-      main: '#FF964F', // Orange
-    },
-    background: {
-      default: '#BBE1C3', // Light green
-      paper: '#A7CDBD', // Muted green
-    },
-    text: {
-      primary: '#91785D', // Taupe
-      secondary: '#8B5D33', // Brown
-    },
-  },
-  typography: {
-    fontFamily: 'Arial, sans-serif',
-  },
-});
+
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_RECIPES);
@@ -32,14 +11,27 @@ const Home = () => {
   const recipes = data?.recipe || [];
   console.log(recipes);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container
+  return (  
+      <Box
       sx={{
-          width: 'maxWidth',
-          height: 'maxHeight',
-          backgroundColor: 'background.paper',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100%',
+        backgroundColor: '#BBE1C3', // Light green background
+        color: '#869D7A', // Muted green for text,
+      }}
+      >
+              <Paper
+        elevation={3}
+        sx={{
           textAlign: 'center',
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          backgroundColor: '#A7CDBD', // Muted aqua green background for the card
+          color: '#869D7A' // Muted green for text
         }}
         >
           <Typography variant="h2" component="h2" gutterBottom>
@@ -50,8 +42,9 @@ const Home = () => {
             <p>Component Here</p>
           )}
           </Typography>
-      </Container>
-    </ThemeProvider>
+        </Paper>
+      </Box>
+  
   );
 };
 
