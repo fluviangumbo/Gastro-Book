@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Header from './components/Header/index';
 import Footer from './components/Footer/index';
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -63,7 +63,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <Container
+        <Box
           sx={{
             backgroundColor: 'background.default',
            
@@ -74,7 +74,7 @@ function App() {
             <Outlet />
           </div>
           <Footer />
-        </Container>
+        </Box>
       </ThemeProvider>
     </ApolloProvider>
   );
