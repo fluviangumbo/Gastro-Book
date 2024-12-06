@@ -10,7 +10,7 @@ const typeDefs = `
   type Recipe {
     _id: ID!
     recipeName: String!
-    recipeAuthor: ID!
+    recipeAuthor: User!
     recipeDescription: String!
     servingSize: String!
     ingredients: [String]!
