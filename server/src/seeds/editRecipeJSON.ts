@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { Types } from 'mongoose';
 
-// THIS FILE IS FOR SEEDING PURPOSES ONLY
+// THIS FILE IS FOR SEEDING PURPOSES ONLY, NEED TO REMOVE null and empty "" in ingredients if run again on starter file
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
