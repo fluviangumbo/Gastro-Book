@@ -1,8 +1,9 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { createTheme, ThemeProvider, Container, Typography, Box, Divider, Paper } from '@mui/material';
-
-import { GET_USER, GET_ME } from '../utils/queries';
+import { useQuery, useMutation } from '@apollo/client';
+import { createTheme, ThemeProvider, Container, Typography, Box, Divider, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useState } from 'react';
+import { ADD_RECIPE, REMOVE_RECIPE } from '../utils/mutations';
+import { GET_USER, GET_ME, } from '../utils/queries';
 import Auth from '../utils/auth';
 
 const theme = createTheme({
@@ -35,6 +36,26 @@ const Profile = () => {
     variables: { username: userParam },
   });
 
+  const [open, setOpen] = useState(false); // controls dialong visibility
+  interface RecipeDetails {
+    recipeName: string;
+    servingSize: string;
+    ingredients: string[];
+    instructions: string[];
+    tags: string[];
+  }
+
+  const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
+    recipeName: '',
+    servingSize: '',
+    ingredients: [],
+    instructions: [],
+    tags: [],
+  });
+
+  const [addRecipe] = useMutation(ADD_RECIPE);
+  const [removeRecipe] = useMutation(REMOVE_RECIPE);
+
   const user = data?.me || data?.user || {};
 
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
@@ -61,6 +82,52 @@ const Profile = () => {
       </ThemeProvider>
     );
   }
+  
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = async () => {
+    if (!recipeDetails.recipeName || !recipeDetails.servingSize || !recipeDetails.ingredients.length || !recipeDetails.instructions.length) {
+      alert('Please fill in all fields');
+      return;
+    }
+    try {
+      await addRecipe({
+        variables: { 
+          input: {
+            recipeName: recipeDetails.recipeName,
+            servingSize: recipeDetails.servingSize,
+            ingredients: recipeDetails.ingredients.filter(Boolean),
+            instructions: recipeDetails.instructions.filter(Boolean),
+            tags: recipeDetails.tags.filter(Boolean),
+          },
+        },
+      });
+      setRecipeDetails({
+        recipeName: '',
+        servingSize: '',
+        ingredients: [],
+        instructions: [],
+        tags: [],
+      });
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDelete = async (recipeId: string) => {
+    try {
+      await removeRecipe({
+        variables: { recipeId },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -75,6 +142,7 @@ const Profile = () => {
             <Typography variant="h6" color="text.primary" gutterBottom>
               Your Recipes
             </Typography>
+
             {user.recipes && user.recipes.length > 0 ? (
               user.recipes.map((recipe: any) => (
                 <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
@@ -84,6 +152,13 @@ const Profile = () => {
                   <Typography variant="body2" color="text.primary">
                     {recipe.description}
                   </Typography>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
+                 >
+                    Delete
+                 </Button>
                 </Paper>
               ))
             ) : (
@@ -91,7 +166,73 @@ const Profile = () => {
                 You have no recipes yet.
               </Typography>
             )}
-          </Paper>
+            
+            {/* Add Recipe button */}
+            {!userParam && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOpen} // open dialog
+              >
+                Add Recipe
+              </Button>
+            )}
+
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Add Recipe</DialogTitle>
+            <  DialogContent>
+                 <TextField
+                    label="Recipe Name"
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    value={recipeDetails.recipeName}
+                    onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
+                />
+                  <TextField
+                    label="Serving Size"
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    value={recipeDetails.servingSize}
+                    onChange={(e) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
+                />
+                 <TextField
+                    label="Instructions (comma separated)"
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    value={recipeDetails.instructions.join(', ')}
+                    onChange={(e) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(',').map((instruction) => instruction.trim()) })}
+                />
+                  <TextField
+                    label="Tags (comma separated)"
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    value={recipeDetails.tags.join(', ')}
+                    onChange={(e) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
+                />
+                  <TextField
+                    label="Ingredients (comma separated)"
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    value={recipeDetails.ingredients.join(', ')}
+                    onChange={(e) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient) => ingredient.trim()) })}
+                />
+
+               </DialogContent>
+               <DialogActions>
+                  <Button onClick={handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
+                    Add Recipe
+                  </Button>
+                </DialogActions>
+              </Dialog>
+           </Paper>
 
           <Divider sx={{ my: 3 }} />
         </Box>
