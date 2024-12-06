@@ -1,6 +1,30 @@
 import { type MouseEvent } from 'react';
 import Auth from '../../utils/auth';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#869D7A', // Olive green
+      },
+      secondary: {
+        main: '#FF964F', // Orange
+      },
+      background: {
+        default: '#BBE1C3', // Light green
+        paper: '#A7CDBD', // Muted green
+      },
+      text: {
+        primary: '#91785D', // Taupe
+        secondary: '#8B5D33', // Brown
+      },
+    },
+    typography: {
+      fontFamily: 'Arial, sans-serif',
+    
+    },
+  });
 
 const Header = () => {
     const logout = (event: MouseEvent<HTMLButtonElement>) => {
@@ -9,6 +33,7 @@ const Header = () => {
     };
 
     return (
+        <ThemeProvider theme={theme}>
         <AppBar position="static">
             <Toolbar
                 sx={{
@@ -18,11 +43,11 @@ const Header = () => {
                 }}
             >
                 <Box>
-                    <Typography variant="h4" sx={{ textDecoration: 'none', color: 'inherit' }}>
-                        Tech Thoughts
+                    <Typography variant="h1" sx={{ textDecoration: 'none', textcolor: "secondary" }}>
+                        Gastro Book
                     </Typography>
                     <Typography variant="subtitle1" sx={{ fontStyle: 'italic', marginTop: '0.5rem' }}>
-                        Get into the mind of a programmer.
+                        The Easiest Way to Save your Recipes. Even Your Mom Will Love It!
                     </Typography>
                 </Box>
                 <Box>
@@ -30,6 +55,7 @@ const Header = () => {
                         <>
                             <Button
                                 variant="contained"
+                                color="secondary"
 
                                 href="/me"
                                 sx={{ margin: '0 0.5rem' }}
@@ -37,12 +63,22 @@ const Header = () => {
                                 {Auth.getProfile().data.username}'s Profile
                             </Button>
                             <Button
-                                variant="outlined"
+                                variant="contained"
+                                color="secondary"
 
                                 onClick={logout}
                                 sx={{ margin: '0 0.5rem' }}
                             >
                                 Logout
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+
+                                href="/recipes"
+                                sx={{ margin: '0 0.5rem' }}
+                                >
+                                Add Recipe
                             </Button>
                         </>
                     ) : (
@@ -68,55 +104,8 @@ const Header = () => {
                 </Box>
             </Toolbar>
         </AppBar>
+    </ThemeProvider>
     );
 };
 
 export default Header;
-// import { Link } from 'react-router-dom';
-// import { type MouseEvent } from 'react';
-// import Auth from '../../utils/auth';
-
-// const Header = () => {
-//   const logout = (event: MouseEvent<HTMLButtonElement>) => {
-//     event.preventDefault();
-//     // Logs the user out by calling the logout method from Auth
-//     Auth.logout();
-//   };
-//   return (
-//     <header className="bg-primary text-light mb-4 py-3 flex-row align-center">
-//       <div className="container flex-row justify-space-between-lg justify-center align-center">
-//         <div>
-//           <Link className="text-light" to="/">
-//             <h1 className="m-0">Tech Thoughts</h1>
-//           </Link>
-//           <p className="m-0">Get into the mind of a programmer.</p>
-//         </div>
-//         <div>
-//           {/* Checking if the user is logged in to conditionally render profile link and logout button */}
-//           {Auth.loggedIn() ? (
-//             <>
-//               <Link className="btn btn-lg btn-info m-2" to="/me">
-//                 {/* Retrieving the logged-in user's profile to display the username */}
-//                 {Auth.getProfile().data.username}'s profile
-//               </Link>
-//               <button className="btn btn-lg btn-light m-2" onClick={logout}>
-//                 Logout
-//               </button>
-//             </>
-//           ) : (
-//             <>
-//               <Link className="btn btn-lg btn-info m-2" to="/login">
-//                 Login
-//               </Link>
-//               <Link className="btn btn-lg btn-light m-2" to="/signup">
-//                 Signup
-//               </Link>
-//             </>
-//           )}
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Header;

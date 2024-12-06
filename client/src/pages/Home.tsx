@@ -1,31 +1,57 @@
 import { useQuery } from '@apollo/client';
 
 import { QUERY_RECIPES } from '../utils/queries.ts';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Container, Typography, Box} from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#869D7A', // Olive green
+    },
+    secondary: {
+      main: '#FF964F', // Orange
+    },
+    background: {
+      default: '#BBE1C3', // Light green
+      paper: '#A7CDBD', // Muted green
+    },
+    text: {
+      primary: '#91785D', // Taupe
+      secondary: '#8B5D33', // Brown
+    },
+  },
+  typography: {
+    fontFamily: 'Arial, sans-serif',
+  },
+});
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_RECIPES);
   console.log(data) // Remove this eventually
-  const recipes = data?.thoughts || [];
+  const recipes = data?.recipe || [];
   console.log(recipes);
 
   return (
-    <main>
-      <div className="flex-row justify-center">
-        <div
-          className="col-12 col-md-10 mb-3 p-3"
-          style={{ border: '1px dotted #1a1a1a' }}
+    <ThemeProvider theme={theme}>
+      <Container
+      sx={{
+          width: 'maxWidth',
+          height: 'maxHeight',
+          backgroundColor: 'background.paper',
+          textAlign: 'center',
+        }}
         >
-          <p>Component Here</p>
-        </div>
-        <div className="col-12 col-md-8 mb-3">
+          <Typography variant="h2" component="h2" gutterBottom>
+            Home Page
           {loading ? (
             <div>Loading...</div>
           ) : (
             <p>Component Here</p> 
           )}
-        </div>
-      </div>
-    </main>
+          </Typography>
+      </Container>
+    </ThemeProvider>
   );
 };
 

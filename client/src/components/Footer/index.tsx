@@ -1,6 +1,31 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider  } from '@mui/material/styles';
 import { Box, Button, Typography, Container } from '@mui/material';
+
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#869D7A', // Olive green
+    },
+    secondary: {
+      main: '#FF964F', // Orange
+    },
+    background: {
+      default: '#BBE1C3', // Light green
+      paper: '#A7CDBD', // Muted green
+    },
+    text: {
+      primary: '#91785D', // Taupe
+      secondary: '#8B5D33', // Brown
+    },
+  },
+  typography: {
+    fontFamily: 'Arial, sans-serif',
+  },
+});
 
 const Footer: React.FC = () => {
   const location = useLocation();
@@ -15,6 +40,7 @@ const Footer: React.FC = () => {
   };
 
   return (
+    <ThemeProvider theme={theme}>  
     <Box
       sx={{
         width: '100%',
@@ -25,6 +51,7 @@ const Footer: React.FC = () => {
       }}
     >
       <Container>
+        <RamenDiningIcon />
         {location.pathname !== '/' && (
           <Button
             variant="contained"
@@ -42,11 +69,13 @@ const Footer: React.FC = () => {
           <span role="img" aria-label="heart" aria-hidden="false">
             ❤️
           </span>{' '}
-          by the Tech Thoughts team.
+          .
         </Typography>
       </Container>
     </Box>
+    </ThemeProvider>
   );
+
 };
 
 export default Footer;
