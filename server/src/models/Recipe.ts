@@ -35,7 +35,7 @@ const recipeSchema = new Schema<IRecipe>(
     },
     servingSize: {
       type: String,
-      required: false,
+      required: true,
       unique: false,
     },
     ingredients: [{
