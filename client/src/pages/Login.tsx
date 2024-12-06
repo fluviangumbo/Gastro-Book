@@ -2,8 +2,31 @@ import { useState, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
-
 import Auth from '../utils/auth';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Container, TextField, Button, Typography, Card, CardContent, Alert } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#869D7A',
+    },
+    secondary: {
+      main: '#FF964F',
+    },
+    background: {
+      default: '#BBE1C3',
+      paper: '#A7CDBD',
+    },
+    error: {
+      main: '#8B5D33',
+    },
+    text: {
+      primary: '#91785D',
+      secondary: '#8B5D33',
+    },
+  },
+});
 
 const Login = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });
@@ -11,7 +34,6 @@ const Login = () => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
@@ -20,17 +42,14 @@ const Login = () => {
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    console.log(formState);
     try {
       const { data } = await login({
         variables: { ...formState },
       });
-
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
     }
-
     setFormState({
       email: '',
       password: '',
@@ -38,53 +57,67 @@ const Login = () => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="sm" style={{ marginTop: '2rem' }}>
+        <Card>
+          <Typography
+            variant="h4"
+            component="div"
+            style={{ backgroundColor: theme.palette.primary.main, color: '#FFF', padding: '1rem' }}
+            align="center"
+          >
+            Login
+          </Typography>
+          <CardContent>
             {data ? (
-              <p>
-                Success! Enjoy using the{' '}
-                <Link to="/">GastroBook.</Link>
-              </p>
+              <Typography variant="body1" align="center">
+                Success! Enjoy using the <Link to="/">GastroBook</Link>.
+              </Typography>
             ) : (
               <form onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input"
-                  placeholder="Your email"
+                <TextField
+                  label="Your email"
+                  variant="outlined"
                   name="email"
                   type="email"
+                  fullWidth
+                  margin="normal"
                   value={formState.email}
                   onChange={handleChange}
+                  required
                 />
-                <input
-                  className="form-input"
-                  placeholder="******"
+                <TextField
+                  label="Password"
+                  variant="outlined"
                   name="password"
                   type="password"
+                  fullWidth
+                  margin="normal"
                   value={formState.password}
                   onChange={handleChange}
+                  required
                 />
-                <button
-                  className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
+                <Button
                   type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  style={{ marginTop: '1rem' }}
                 >
                   Submit
-                </button>
+                </Button>
               </form>
             )}
 
             {error && (
-              <div className="my-3 p-3 bg-danger text-white">
+              <Alert severity="error" style={{ marginTop: '1rem' }}>
                 {error.message}
-              </div>
+              </Alert>
             )}
-          </div>
-        </div>
-      </div>
-    </main>
+          </CardContent>
+        </Card>
+      </Container>
+    </ThemeProvider>
   );
 };
 

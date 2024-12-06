@@ -1,31 +1,50 @@
 import { useQuery } from '@apollo/client';
 
 import { QUERY_RECIPES } from '../utils/queries.ts';
+import { Box, Typography, Paper } from '@mui/material';
+
+
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_RECIPES);
   console.log(data) // Remove this eventually
-  const recipes = data?.thoughts || [];
+  const recipes = data?.recipe || [];
   console.log(recipes);
 
-  return (
-    <main>
-      <div className="flex-row justify-center">
-        <div
-          className="col-12 col-md-10 mb-3 p-3"
-          style={{ border: '1px dotted #1a1a1a' }}
+  return (  
+      <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100%',
+        backgroundColor: '#BBE1C3', // Light green background
+        color: '#869D7A', // Muted green for text,
+      }}
+      >
+              <Paper
+        elevation={3}
+        sx={{
+          textAlign: 'center',
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          backgroundColor: '#A7CDBD', // Muted aqua green background for the card
+          color: '#869D7A' // Muted green for text
+        }}
         >
-          <p>Component Here</p>
-        </div>
-        <div className="col-12 col-md-8 mb-3">
+          <Typography variant="h2" component="h2" gutterBottom>
+            Home Page
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <p>Component Here</p> 
+            <p>Component Here</p>
           )}
-        </div>
-      </div>
-    </main>
+          </Typography>
+        </Paper>
+      </Box>
+  
   );
 };
 
