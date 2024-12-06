@@ -47,7 +47,7 @@ const Home = () => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <p>Component Here</p> 
+            <p>Component Here</p>
           )}
           </Typography>
       </Container>
