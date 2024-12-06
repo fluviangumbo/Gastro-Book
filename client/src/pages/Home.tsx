@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 
 import { QUERY_RECIPES } from '../utils/queries.ts';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Container, Typography, Box} from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 const theme = createTheme({
   palette: {
