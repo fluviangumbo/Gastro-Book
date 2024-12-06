@@ -8,6 +8,7 @@ const seedDatabase = async (): Promise<void> => {
   try {
     await db();
     await cleanDB();
+    console.log(db)
 
     await Recipe.insertMany(recipeData);
     console.log('Seeding completed successfully!');
