@@ -1,5 +1,6 @@
 import { User, Recipe } from '../models/index.js';
-import { signToken, AuthenticationError } from '../utils/auth.js'; 
+import { signToken, AuthenticationError } from '../utils/auth.js';
+import { Types } from 'mongoose';
 
 // Define types for the arguments
 interface AddUserArgs {
@@ -37,7 +38,6 @@ interface AddRecipeArgs {
 
 interface RemoveRecipeArgs {
   recipeId: string;
-  recipeAuthor: string;
 }
 
 const resolvers = {
@@ -100,21 +100,31 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    addRecipe: async (_parent: any, { input }: AddRecipeArgs) => {
-      return await User.findOneAndUpdate(
-        { _id: input.recipeAuthor },
+    addRecipe: async (_parent: any, { input }: AddRecipeArgs, context: any) => {
+      const userId = context.user._id;
+
+      const newRecipe = await Recipe.create({ ...input, recipeAuthor: userId });
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
         {
-          $addToSet: { recipes: { ...input } },
+          $addToSet: { recipes: newRecipe._id },
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      return updatedUser;
     },
-    removeRecipe: async (_parent: any, { recipeId, recipeAuthor }: RemoveRecipeArgs) => {
+    removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
+      const userId = context.user._id;
+
+      await Recipe.findByIdAndDelete(recipeId);
+
       return await User.findOneAndUpdate(
-        { _id: recipeAuthor },
+        { _id: userId },
         { $pull: { recipes: { _id: recipeId } } },
         { new: true }
       );
