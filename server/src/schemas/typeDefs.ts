@@ -1,20 +1,20 @@
 const typeDefs = `
   type User {
-    _id: ID
-    username: String
-    email: String
-    password: String
+    _id: ID!
+    username: String!
+    email: String!
+    password: String!
     recipes: [Recipe]
   }
 
   type Recipe {
-    _id: ID
-    recipeName: String
-    recipeAuthor: ID
-    recipeDescription: String
-    servingSize: String
-    ingredients: [String]
-    instructions: [String]
+    _id: ID!
+    recipeName: String!
+    recipeAuthor: ID!
+    recipeDescription: String!
+    servingSize: String!
+    ingredients: [String]!
+    instructions: [String]!
     tags: [String]
   }
 

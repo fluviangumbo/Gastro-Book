@@ -10,8 +10,30 @@ import { Outlet } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Header from './components/Header/index';
-// import Footer from './components/Footer/index';
-const theme = createTheme()
+import Footer from './components/Footer/index';
+import { Container } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#869D7A', // Olive green
+    },
+    secondary: {
+      main: '#FF964F', // Orange
+    },
+    background: {
+      default: '#BBE1C3', // Light green
+      paper: '#A7CDBD', // Muted green
+    },
+    text: {
+      primary: '#91785D', // Taupe
+      secondary: '#8B5D33', // Brown
+    },
+  },
+  typography: {
+    fontFamily: 'Arial, sans-serif',
+  },
+});
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -41,13 +63,18 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <div className="flex-column justify-flex-start min-100-vh">
+        <Container
+          sx={{
+            backgroundColor: 'background.default',
+           
+          }}
+        >
           <Header />
           <div className="container">
             <Outlet />
           </div>
-          {/* <Footer /> */}
-        </div>
+          <Footer />
+        </Container>
       </ThemeProvider>
     </ApolloProvider>
   );
