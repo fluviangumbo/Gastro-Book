@@ -69,7 +69,17 @@ const Footer: React.FC = () => {
           <span role="img" aria-label="heart" aria-hidden="false">
             ❤️
           </span>{' '}
-          .
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          **All pre-made recipes courtesy of{' '}
+          <a
+            href="https://www.bbcgoodfood.com/recipes"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'inherit', textDecoration: 'underline' }}
+          >
+            https://www.bbcgoodfood.com/recipes
+          </a>
         </Typography>
       </Container>
     </Box>
