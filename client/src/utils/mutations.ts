@@ -28,13 +28,9 @@ export const LOGIN = gql`
 export const ADD_RECIPE = gql`
   mutation addRecipe($input: RecipeInput!) {
     addRecipe(input: $input) {
-      _id
       recipes {
         recipeName
-        recipeAuthor {
-          _id
-          username
-        }
+        recipeAuthor
         recipeDescription
         servingSize
         ingredients
@@ -48,11 +44,7 @@ export const ADD_RECIPE = gql`
 export const REMOVE_RECIPE = gql`
   mutation removeRecipe($recipeId: ID!) {
     removeRecipe(recipeId: $recipeId) {
-      _id
-      username
-      recipes {
-        recipeName
-      }
+      recipes
     }
   }
 `;
