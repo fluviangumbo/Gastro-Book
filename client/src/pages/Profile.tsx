@@ -134,7 +134,7 @@ const Profile = () => {
         variables: { recipeId },
       });
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting recipe,err");
     }
   };
 
@@ -165,9 +165,9 @@ const Profile = () => {
                     {recipe.description}
                   </Typography>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
+                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
                   >
                     Delete
                   </Button>
@@ -183,7 +183,7 @@ const Profile = () => {
             {!userParam && (
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={handleOpen} // open dialog
               >
                 Add Recipe

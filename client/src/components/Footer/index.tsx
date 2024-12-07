@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
         {location.pathname !== '/' && (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             sx={{
               marginBottom: 3,
             }}
