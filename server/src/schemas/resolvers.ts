@@ -1,6 +1,5 @@
 import { User, Recipe } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js';
-// import { Types } from 'mongoose';
 
 // Define types for the arguments
 interface AddUserArgs {
