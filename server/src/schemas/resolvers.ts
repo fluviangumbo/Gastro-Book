@@ -58,7 +58,7 @@ const resolvers = {
       throw new AuthenticationError('Could not authenticate user.');
     },
     recipes: async () => {
-      return await Recipe.find();
+      return await Recipe.find().populate('recipes');
     },
     recipe: async (_parent: any, { recipeId }: RecipeArgs) => {
       return await Recipe.findById(recipeId);
