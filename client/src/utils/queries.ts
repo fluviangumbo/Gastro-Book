@@ -28,11 +28,14 @@ export const GET_USER = gql`
 
 export const QUERY_RECIPES = gql`
   query recipes {
-    recipe {
+    recipes {
       _id
       recipeName
+      recipeAuthor {
+        _id
+        username
+      }
       servingSize
-      tags
     }
   }
 `;

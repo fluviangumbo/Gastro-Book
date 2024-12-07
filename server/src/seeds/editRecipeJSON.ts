@@ -33,7 +33,7 @@ async function editRecipeJSON(inFilePath: string, outFilePath: string) {
 
         const transformedRecipes: TransformedRecipe[] = recipes.map(recipe => ({
             recipeName: recipe.Name,
-            recipeAuthor: new Types.ObjectId('675238440b3a3e8ce96ad049'),
+            recipeAuthor: new Types.ObjectId('67525f4951192ac6fa6a5e9b'),
             recipeDescription: recipe.Description ?? "No description available.",
             servingSize: '2-4',
             ingredients: recipe.Ingredients,

@@ -21,27 +21,6 @@ const SingleRecipe = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-    // const recipe: any = {
-    //     recipeName: "Creme de la Creme de la Edgar",
-    //     recipeAuthor: {
-    //         username: "toddFarkus123"
-    //     },
-    //     recipeDescription: "The best meal an aristocat could ask for!",
-    //     ingredients: [
-    //         "Evaporated Milk",
-    //         "Heavy Cream",
-    //         "Sugar",
-    //         "Vanilla",
-    //         "Cinnamon",
-    //         "Nutmeg",
-    //         "Whole Milk"
-    //     ],
-    //     instructions: [
-    //         "Combine evaporated milk, heavy cream, and a spoonful of sugar in a saucepan.",
-    //         "Add a dash of vanilla, nutmeg, and cinnamon.",
-    //         "Whisk this milky concoction until it’s just beginning to thicken."
-    //     ]
-    // }
 
   return (
     <div>
