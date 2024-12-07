@@ -1,5 +1,6 @@
 import { User, Recipe } from '../models/index.js';
-import { signToken, AuthenticationError } from '../utils/auth.js'; 
+import { signToken, AuthenticationError } from '../utils/auth.js';
+import { Types } from 'mongoose';
 
 // Define types for the arguments
 interface AddUserArgs {
@@ -37,32 +38,31 @@ interface AddRecipeArgs {
 
 interface RemoveRecipeArgs {
   recipeId: string;
-  recipeAuthor: string;
 }
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('recipes');
+      return await User.find().populate('recipes');
     },
     user: async (_parent: any, { username }: UserArgs) => {
-      return User.findOne({ username }).populate('recipes');
+      return await User.findOne({ username }).populate('recipes');
     },
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
       // If the user is authenticated, find and return the user's information along with their thoughts
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('recipes');
+        return await User.findById(context.user._id).populate('recipes');
       }
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError('Could not authenticate user.');
     },
     recipes: async () => {
-      return Recipe.find();
+      return await Recipe.find();
     },
     recipe: async (_parent: any, { recipeId }: RecipeArgs) => {
-      return Recipe.findOne({ recipeId });
+      return await Recipe.findById(recipeId);
     },
   },
   Mutation: {
@@ -83,7 +83,7 @@ const resolvers = {
     
       // If no user is found, throw an AuthenticationError
       if (!user) {
-        throw new AuthenticationError('Could not authenticate user.');
+        throw new AuthenticationError('Could not authenticate user. User not found.');
       }
     
       // Check if the provided password is correct
@@ -91,7 +91,7 @@ const resolvers = {
     
       // If the password is incorrect, throw an AuthenticationError
       if (!correctPw) {
-        throw new AuthenticationError('Could not authenticate user.');
+        throw new AuthenticationError('Could not authenticate user. Incorrect password.');
       }
     
       // Sign a token with the user's information
@@ -100,21 +100,31 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    addRecipe: async (_parent: any, { input }: AddRecipeArgs) => {
-      return await User.findOneAndUpdate(
-        { _id: input.recipeAuthor },
+    addRecipe: async (_parent: any, { input }: AddRecipeArgs, context: any) => {
+      const userId = context.user._id;
+
+      const newRecipe = await Recipe.create({ ...input, recipeAuthor: userId });
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
         {
-          $addToSet: { recipes: { ...input } },
+          $addToSet: { recipes: newRecipe._id },
         },
         {
           new: true,
           runValidators: true,
         }
       );
+
+      return updatedUser;
     },
-    removeRecipe: async (_parent: any, { recipeId, recipeAuthor }: RemoveRecipeArgs) => {
+    removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
+      const userId = context.user._id;
+
+      await Recipe.findByIdAndDelete(recipeId);
+
       return await User.findOneAndUpdate(
-        { _id: recipeAuthor },
+        { _id: userId },
         { $pull: { recipes: { _id: recipeId } } },
         { new: true }
       );

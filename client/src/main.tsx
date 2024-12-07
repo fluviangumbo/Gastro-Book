@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ErrorPage from './pages/Error';
 import SingleRecipe from './pages/SingleRecipe.js';
+import Profile from './pages/Profile.js';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,12 @@ const router = createBrowserRouter([
       }, {
         path: '/recipe',
         element: <SingleRecipe />
-      }, {
+         serverClientMatching
+      }, 
+      {
+         =======
+      },
+      { develop
         path: '/profile',
         element: <Profile />
       }
