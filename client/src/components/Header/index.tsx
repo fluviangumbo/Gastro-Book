@@ -63,7 +63,7 @@ const Header = () => {
                                 color="secondary"
                                 variant="contained"
 
-                                href="/me"
+                                href="/profile"
                                 sx={{ margin: '0 0.5rem' }}
                             >
                                 {Auth.getProfile().data.username}'s Profile
