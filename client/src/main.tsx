@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-
+import Profile from './pages/Profile';
 import App from './App.jsx';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -27,6 +27,9 @@ const router = createBrowserRouter([
       }, {
         path: '/recipe',
         element: <SingleRecipe />
+      }, {
+        path: '/profile',
+        element: <Profile />
       }
     ]
   },

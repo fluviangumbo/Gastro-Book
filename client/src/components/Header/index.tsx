@@ -1,7 +1,10 @@
 import { type MouseEvent } from 'react';
 import Auth from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
+
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 const theme = createTheme({
     palette: {
@@ -27,6 +30,8 @@ const theme = createTheme({
   });
 
 const Header = () => {
+    const navigate = useNavigate();
+
     const logout = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         Auth.logout();
@@ -54,8 +59,9 @@ const Header = () => {
                     {Auth.loggedIn() ? (
                         <>
                             <Button
-                                variant="contained"
+                                onClick={() => navigate('/profile')}
                                 color="secondary"
+                                variant="contained"
 
                                 href="/me"
                                 sx={{ margin: '0 0.5rem' }}
@@ -85,6 +91,7 @@ const Header = () => {
                         <>
                             <Button
                                 variant="contained"
+                                color="secondary"
 
                                 href="/login"
                                 sx={{ margin: '0 0.5rem' }}
@@ -92,7 +99,8 @@ const Header = () => {
                                 Login
                             </Button>
                             <Button
-                                variant="outlined"
+                                variant="contained"
+                                color="secondary"
 
                                 href="/signup"
                                 sx={{ margin: '0 0.5rem' }}
