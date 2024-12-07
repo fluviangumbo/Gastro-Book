@@ -2,6 +2,7 @@ export interface Recipe { // Recipe in full detail
     id: string; // Unique identifier
     recipeName: string;
     recipeAuthor: string;
+    recipeDescription: string;
     servingSize: string;
     ingredients: string[]; // Array of ingredient strings
     instructions: string[]; // Step-by-step instructions

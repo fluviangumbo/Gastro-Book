@@ -39,6 +39,8 @@ const Profile = () => {
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
     recipeName: string;
+    recipeAuthor: string;
+    recipeDescription: string;
     servingSize: string;
     ingredients: string[];
     instructions: string[];
@@ -47,14 +49,18 @@ const Profile = () => {
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
     recipeName: '',
+    recipeAuthor: '',
+    recipeDescription: '',
     servingSize: '',
     ingredients: [],
     instructions: [],
     tags: [],
   });
 
-  const [addRecipe] = useMutation(ADD_RECIPE);
-  const [removeRecipe] = useMutation(REMOVE_RECIPE);
+  
+
+  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]});
+  const [removeRecipe] = useMutation(REMOVE_RECIPE,{refetchQueries: [{ query: GET_ME }]});
 
   const user = data?.me || data?.user || {};
 
@@ -82,7 +88,7 @@ const Profile = () => {
       </ThemeProvider>
     );
   }
-  
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -92,19 +98,25 @@ const Profile = () => {
       return;
     }
     try {
-      await addRecipe({
-        variables: { 
+      let data=await addRecipe({
+        variables: {
           input: {
             recipeName: recipeDetails.recipeName,
+            recipeAuthor: recipeDetails.recipeAuthor,
+            recipeDescription: recipeDetails.recipeDescription,
             servingSize: recipeDetails.servingSize,
-            ingredients: recipeDetails.ingredients.filter(Boolean),
+            ingredients: recipeDetails.ingredients,
             instructions: recipeDetails.instructions.filter(Boolean),
             tags: recipeDetails.tags.filter(Boolean),
           },
         },
       });
+      console.log(data);
+
       setRecipeDetails({
         recipeName: '',
+        recipeAuthor: '',
+        recipeDescription: '',
         servingSize: '',
         ingredients: [],
         instructions: [],
@@ -156,9 +168,9 @@ const Profile = () => {
                     variant="outlined"
                     color="secondary"
                     onClick={() => handleDelete(recipe._id)} //Delete button functionality
-                 >
+                  >
                     Delete
-                 </Button>
+                  </Button>
                 </Paper>
               ))
             ) : (
@@ -166,7 +178,7 @@ const Profile = () => {
                 You have no recipes yet.
               </Typography>
             )}
-            
+
             {/* Add Recipe button */}
             {!userParam && (
               <Button
@@ -180,59 +192,75 @@ const Profile = () => {
 
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle>Add Recipe</DialogTitle>
-            <  DialogContent>
-                 <TextField
-                    label="Recipe Name"
-                    fullWidth
-                    variant="outlined"
-                    margin="normal"
-                    value={recipeDetails.recipeName}
-                    onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
-                />
-                  <TextField
-                    label="Serving Size"
-                    fullWidth
-                    variant="outlined"
-                    margin="normal"
-                    value={recipeDetails.servingSize}
-                    onChange={(e) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
+              <  DialogContent>
+                <TextField
+                  label="Recipe Name"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.recipeName}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
                 />
                  <TextField
-                    label="Instructions (comma separated)"
-                    fullWidth
-                    variant="outlined"
-                    margin="normal"
-                    value={recipeDetails.instructions.join(', ')}
-                    onChange={(e) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(',').map((instruction) => instruction.trim()) })}
+                  label="Recipe Author"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.recipeAuthor}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeAuthor: e.target.value })}
                 />
-                  <TextField
-                    label="Tags (comma separated)"
-                    fullWidth
-                    variant="outlined"
-                    margin="normal"
-                    value={recipeDetails.tags.join(', ')}
-                    onChange={(e) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
+                <TextField
+                  label="Recipe Description"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.recipeDescription}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeDescription: e.target.value })}
                 />
-                  <TextField
-                    label="Ingredients (comma separated)"
-                    fullWidth
-                    variant="outlined"
-                    margin="normal"
-                    value={recipeDetails.ingredients.join(', ')}
-                    onChange={(e) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient) => ingredient.trim()) })}
+                <TextField
+                  label="Serving Size"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.servingSize}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
+                />
+                <TextField
+                  label="Instructions (comma separated)"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.instructions.join(', ')}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(', ').map((instruction) => instruction.trim()) })}
+                />
+                <TextField
+                  label="Tags (comma separated)"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.tags.join(', ')}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
+                />
+                <TextField
+                  label="Ingredients (comma separated)"
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  value={recipeDetails.ingredients.join(', ')}
+                  onChange={(e) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient) => ingredient.trim()) })}
                 />
 
-               </DialogContent>
-               <DialogActions>
-                  <Button onClick={handleClose} color="secondary">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
-                    Add Recipe
-                  </Button>
-                </DialogActions>
-              </Dialog>
-           </Paper>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
+                  Add Recipe
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Paper>
 
           <Divider sx={{ my: 3 }} />
         </Box>
