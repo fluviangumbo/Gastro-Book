@@ -104,7 +104,7 @@ const resolvers = {
 
       const newRecipe = await Recipe.create({ ...input, recipeAuthor: userId });
 
-      const updatedUser = await User.findOneAndUpdate(
+      const userUpdate= await User.findOneAndUpdate(
         { _id: userId },
         {
           $addToSet: { recipes: newRecipe._id },
@@ -113,9 +113,9 @@ const resolvers = {
           new: true,
           runValidators: true,
         }
-      );
+      ).populate('recipes');
 
-      return updatedUser;
+      return userUpdate;
     },
     removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
       const userId = context.user._id;
