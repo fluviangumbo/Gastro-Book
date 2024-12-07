@@ -1,30 +1,51 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import { FixedSizeList } from 'react-window';
 
 interface RecipeSummary {
+  _id: string;
   recipeName: string;
-  recipeAuthor: string;
+  recipeAuthor: {
+    _id: string;
+    username: string;
+  }
   servingSize: string;
   tags: string[];
 }
 
-const recipeSummary: RecipeSummary[] = [
-  {
-    recipeName: 'Spaghetti Bolognese',
-    recipeAuthor: 'John Doe',
-    servingSize: '4',
-    tags: ['Italian', 'Pasta', 'Main Course'],
-  },
-  {
-    recipeName: 'Chicken Curry',
-    recipeAuthor: 'Jane Smith',
-    servingSize: '3',
-    tags: ['Indian', 'Spicy', 'Main Course'],
-  },
-];
+interface RecipeListProps {
+  recipes: RecipeSummary[]
+}
 
-const RecipeList: React.FC = () => (
+function renderRow(props: any) {
+  const { data, index} = props;
+  console.log(data)
+  return (
+    <ListItem key={index} component="div" disablePadding>
+      
+        <Typography variant="h6">{data[index].recipeName}</Typography>
+        <Typography>by {data[index].recipeAuthor?.username}</Typography>
+        <Typography>Serving Size: {data[index].servingSize}</Typography>
+        {data[index].tags?.map((tag: string, tagIndex: number) => (
+          <Typography key={tagIndex}>{tag}</Typography>
+        ))}
+        <ListItemButton>
+        <Link
+          className="btn btn-primary btn-block btn-squared"
+          to={`/recipe/${data[index].recipeName}`}
+        >
+          View Recipe
+        </Link>
+        </ListItemButton>
+    </ListItem>
+  );
+}
+
+// WE NEED A WAY TO RETURN A LIMIT, OR ONLY DISPLAY A CERTAIN AMOUNT
+const RecipeList: React.FC<RecipeListProps> = ({recipes}) => (
   <Box
     sx={{
       display: 'flex',
@@ -37,23 +58,18 @@ const RecipeList: React.FC = () => (
       color: '#869D7A', // Muted green for text,
     }}
   >
-    {recipeSummary.map((recipe: RecipeSummary, index: number) => (
-      <Box key={index} sx={{ marginBottom: 2 }}>
-        <Typography variant="h6">{recipe.recipeName}</Typography>
-        <Typography>by {recipe.recipeAuthor}</Typography>
-        <Typography>Serving Size: {recipe.servingSize}</Typography>
-        {recipe.tags.map((tag: string, tagIndex: number) => (
-          <Typography key={tagIndex}>{tag}</Typography>
-        ))}
-        <Link
-          className="btn btn-primary btn-block btn-squared"
-          to={`/recipe/${recipe.recipeName}`}
-        >
-          View Recipe
-        </Link>
-      </Box>
-    ))}
+      <FixedSizeList
+      height={400}
+      width={360}
+      itemData={recipes}
+      itemSize={46}
+      itemCount={recipes.length}
+      overscanCount={5}
+    >
+      {renderRow}
+    </FixedSizeList>
   </Box>
 );
 
 export default RecipeList;
+

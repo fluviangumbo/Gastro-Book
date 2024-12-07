@@ -12,10 +12,8 @@ import RecipeList from '../components/RecipeList/index.tsx';
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_RECIPES);
-  console.log(data) // Remove this eventually
 
   const recipes = data?.recipes || [];
-  console.log(recipes);
 
   return (
     <Box
@@ -63,17 +61,13 @@ const Home = () => {
             Loading...
           </Typography>
         ) : (
-
-          
+          <>
          <Typography>
           Put your recipes here
-          {recipes.map((recipe: { id: string; recipeName: string; recipeAuthor: string; servingSize: string; tags: string[] }) => (
-            <RecipeList 
-              key={recipe.id}
-              
-            />
-          ))}
-         </Typography>)}
+          </Typography>
+          <RecipeList recipes={recipes}/>
+          </>
+          )}
       </Box>
     </Box>
   );
