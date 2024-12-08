@@ -22,7 +22,6 @@ interface RecipeListProps {
 
 function renderRow(props: any) {
   const { data, index} = props;
-  console.log(data)
   return (
     <ListItem key={index} component="div" disablePadding>
       
@@ -35,7 +34,7 @@ function renderRow(props: any) {
         <ListItemButton>
         <Link
           className="btn btn-primary btn-block btn-squared"
-          to={`/recipe/${data[index].recipeName}`}
+          to={`/recipe/${data[index]._id}`}
         >
           View Recipe
         </Link>
