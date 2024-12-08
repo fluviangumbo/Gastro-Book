@@ -102,8 +102,10 @@ const resolvers = {
     },
     addRecipe: async (_parent: any, { input }: AddRecipeArgs, context: any) => {
       const userId = context.user._id;
+      console.log(userId)
 
       const newRecipe = await Recipe.create({ ...input, recipeAuthor: userId });
+      console.log(newRecipe)
 
       const userUpdate= await User.findOneAndUpdate(
         { _id: userId },

@@ -39,7 +39,6 @@ const Profile = () => {
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
     recipeName: string;
-    recipeAuthor: string;
     recipeDescription: string;
     servingSize: string;
     ingredients: string[];
@@ -49,7 +48,6 @@ const Profile = () => {
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
     recipeName: '',
-    recipeAuthor: '',
     recipeDescription: '',
     servingSize: '',
     ingredients: [],
@@ -59,7 +57,7 @@ const Profile = () => {
 
   
 
-  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]});
+  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]}); // are variables getting passed correctly here?
   const [removeRecipe] = useMutation(REMOVE_RECIPE,{refetchQueries: [{ query: GET_ME }]});
 
   const user = data?.me || data?.user || {};
@@ -102,7 +100,6 @@ const Profile = () => {
         variables: {
           input: {
             recipeName: recipeDetails.recipeName,
-            recipeAuthor: recipeDetails.recipeAuthor,
             recipeDescription: recipeDetails.recipeDescription,
             servingSize: recipeDetails.servingSize,
             ingredients: recipeDetails.ingredients,
@@ -115,7 +112,6 @@ const Profile = () => {
 
       setRecipeDetails({
         recipeName: '',
-        recipeAuthor: '',
         recipeDescription: '',
         servingSize: '',
         ingredients: [],
@@ -201,14 +197,14 @@ const Profile = () => {
                   value={recipeDetails.recipeName}
                   onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
                 />
-                 <TextField
+                 {/* <TextField
                   label="Recipe Author"
                   fullWidth
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.recipeAuthor}
                   onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeAuthor: e.target.value })}
-                />
+                /> */}
                 <TextField
                   label="Recipe Description"
                   fullWidth

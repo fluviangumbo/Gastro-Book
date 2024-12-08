@@ -42,7 +42,7 @@ export const QUERY_RECIPES = gql`
 
 export const QUERY_RECIPE = gql`
   query recipe($recipeId: ID!) {
-    recipe {
+    recipe(recipeId: $recipeId) {
       _id
       recipeName
       recipeAuthor {
