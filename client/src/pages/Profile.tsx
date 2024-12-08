@@ -91,11 +91,11 @@ const Profile = () => {
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async () => {
-    if (!recipeDetails.recipeName || !recipeDetails.servingSize || !recipeDetails.ingredients.length || !recipeDetails.instructions.length) {
+    if (!recipeDetails.recipeName || !recipeDetails.recipeDescription || !recipeDetails.servingSize || !recipeDetails.ingredients.length || !recipeDetails.instructions.length) {
       alert('Please fill in all fields');
       return;
     }
-    try {
+    try { // REMOVED recipeAuthor since we are getting that from context, but still not working
       let data=await addRecipe({
         variables: {
           input: {
