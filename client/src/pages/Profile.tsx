@@ -110,7 +110,7 @@ const Profile = () => {
           },
         },
       });
-      console.log(data);
+      console.log(data?.data.username)
 
       setRecipeDetails({
         recipeId: '',
@@ -127,19 +127,15 @@ const Profile = () => {
     }
   };
 
-  const handleDelete = async (recipeName: string) => {
-      try {
-        let data = await removeRecipe({
-          variables: { recipeName },
-        });
-        console.log(data);
-        
-      } catch (err) {
-        console.error("Error deleting recipe,err");
-      }
-    };
-
-
+  const handleDelete = async (recipeId: string) => {
+    try {
+      await removeRecipe({
+        variables: { recipeId: recipeId },
+      });
+    } catch (err) {
+      console.error("Error deleting recipe,err");
+    }
+  };
 
 
   return (
@@ -168,7 +164,8 @@ const Profile = () => {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe.recipeName)} //Delete button functionality
+                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
+
                   >
                     Delete
                   </Button>
