@@ -57,7 +57,7 @@ const Profile = () => {
 
   
 
-  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]}); // are variables getting passed correctly here?
+  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]});
   const [removeRecipe] = useMutation(REMOVE_RECIPE,{refetchQueries: [{ query: GET_ME }]});
 
   const user = data?.me || data?.user || {};
@@ -95,7 +95,7 @@ const Profile = () => {
       alert('Please fill in all fields');
       return;
     }
-    try { // REMOVED recipeAuthor since we are getting that from context, but still not working
+    try {
       let data=await addRecipe({
         variables: {
           input: {
@@ -197,14 +197,6 @@ const Profile = () => {
                   value={recipeDetails.recipeName}
                   onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
                 />
-                 {/* <TextField
-                  label="Recipe Author"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.recipeAuthor}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeAuthor: e.target.value })}
-                /> */}
                 <TextField
                   label="Recipe Description"
                   fullWidth
