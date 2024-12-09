@@ -21,30 +21,30 @@ interface RecipeListProps {
 }
 
 function renderRow(props: any) {
-  const { data, index} = props;
+  const { data, index } = props;
   return (
     <ListItem key={index} component="div" disablePadding>
-      
-        <Typography variant="h6">{data[index].recipeName}</Typography>
-        <Typography>by {data[index].recipeAuthor?.username}</Typography>
-        <Typography>Serving Size: {data[index].servingSize}</Typography>
-        {data[index].tags?.map((tag: string, tagIndex: number) => (
-          <Typography key={tagIndex}>{tag}</Typography>
-        ))}
-        <ListItemButton>
+
+      <Typography variant="h6">{data[index].recipeName}</Typography>
+      <Typography>by {data[index].recipeAuthor?.username}</Typography>
+      <Typography>Serving Size: {data[index].servingSize}</Typography>
+      {data[index].tags?.map((tag: string, tagIndex: number) => (
+        <Typography key={tagIndex}>{tag}</Typography>
+      ))}
+      <ListItemButton>
         <Link
           className="btn btn-primary btn-block btn-squared"
           to={`/recipe/${data[index]._id}`}
         >
           View Recipe
         </Link>
-        </ListItemButton>
+      </ListItemButton>
     </ListItem>
   );
 }
 
 // WE NEED A WAY TO RETURN A LIMIT, OR ONLY DISPLAY A CERTAIN AMOUNT
-const RecipeList: React.FC<RecipeListProps> = ({recipes}) => (
+const RecipeList: React.FC<RecipeListProps> = ({ recipes }) => (
   <Box
     sx={{
       display: 'flex',
@@ -57,7 +57,7 @@ const RecipeList: React.FC<RecipeListProps> = ({recipes}) => (
       color: '#869D7A', // Muted green for text,
     }}
   >
-      <FixedSizeList
+    <FixedSizeList
       height={400}
       width={360}
       itemData={recipes}
