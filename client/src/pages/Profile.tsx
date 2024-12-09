@@ -38,6 +38,7 @@ const Profile = () => {
 
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
+    recipeId: string;
     recipeName: string;
     recipeDescription: string;
     servingSize: string;
@@ -47,6 +48,7 @@ const Profile = () => {
   }
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
+    recipeId: '',
     recipeName: '',
     recipeDescription: '',
     servingSize: '',
@@ -108,9 +110,10 @@ const Profile = () => {
           },
         },
       });
-      console.log(data);
+      console.log(data?.data.username)
 
       setRecipeDetails({
+        recipeId: '',
         recipeName: '',
         recipeDescription: '',
         servingSize: '',
@@ -127,14 +130,12 @@ const Profile = () => {
   const handleDelete = async (recipeId: string) => {
     try {
       await removeRecipe({
-        variables: { recipeId },
+        variables: { recipeId: recipeId },
       });
     } catch (err) {
       console.error("Error deleting recipe,err");
     }
   };
-
-
 
 
   return (
@@ -155,15 +156,16 @@ const Profile = () => {
               user.recipes.map((recipe: any) => (
                 <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
                   <Typography variant="h6" color="text.secondary">
-                    {recipe.title}
+                    {recipe.recipeName}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
-                    {recipe.description}
+                    {recipe.recipeDescription}
                   </Typography>
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
+                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
+
                   >
                     Delete
                   </Button>

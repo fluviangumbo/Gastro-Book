@@ -17,36 +17,36 @@ const recipeSchema = new Schema<IRecipe>(
   {
     recipeName: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
       trim: true,
     },
     recipeAuthor: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false,
       unique: false,
     },
     recipeDescription: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
       trim: true,
     },
     servingSize: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
     },
     ingredients: [{
       type: String,
-      required: true,
+      required: false,
       unique: false,
       trim: true,
     }],
     instructions: [{
       type: String,
-      required: true,
+      required: false,
       unique: false,
     }],
     tags: [{
