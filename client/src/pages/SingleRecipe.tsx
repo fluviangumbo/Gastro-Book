@@ -10,13 +10,14 @@ import Divider from '@mui/material/Divider';
 import { QUERY_RECIPE } from '../utils/queries.ts';
 
 const SingleRecipe = () => {
-  const { recipeId: recipeParam } = useParams();
+  const { recipeId } = useParams();
 
   const { loading, data } = useQuery(QUERY_RECIPE, {
-    variables: { recipeId: recipeParam },
+    variables: { recipeId: recipeId },
   });
 
   const recipe = data?.recipe || {};
+  console.log(recipe.ingredients)
 
   if (loading) {
     return <div>Loading...</div>;
@@ -29,6 +30,7 @@ const SingleRecipe = () => {
         {recipe.recipeAuthor.username}
       </h3>
       <p>{recipe.recipeDescription}</p>
+      <p>Serving Size: {recipe.servingSize}</p>
       <Divider />
       <Box>
         <List>

@@ -39,7 +39,6 @@ const Profile = () => {
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
     recipeName: string;
-    recipeAuthor: string;
     recipeDescription: string;
     servingSize: string;
     ingredients: string[];
@@ -49,7 +48,6 @@ const Profile = () => {
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
     recipeName: '',
-    recipeAuthor: '',
     recipeDescription: '',
     servingSize: '',
     ingredients: [],
@@ -93,7 +91,7 @@ const Profile = () => {
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async () => {
-    if (!recipeDetails.recipeName || !recipeDetails.servingSize || !recipeDetails.ingredients.length || !recipeDetails.instructions.length) {
+    if (!recipeDetails.recipeName || !recipeDetails.recipeDescription || !recipeDetails.servingSize || !recipeDetails.ingredients.length || !recipeDetails.instructions.length) {
       alert('Please fill in all fields');
       return;
     }
@@ -102,7 +100,6 @@ const Profile = () => {
         variables: {
           input: {
             recipeName: recipeDetails.recipeName,
-            recipeAuthor: recipeDetails.recipeAuthor,
             recipeDescription: recipeDetails.recipeDescription,
             servingSize: recipeDetails.servingSize,
             ingredients: recipeDetails.ingredients,
@@ -115,7 +112,6 @@ const Profile = () => {
 
       setRecipeDetails({
         recipeName: '',
-        recipeAuthor: '',
         recipeDescription: '',
         servingSize: '',
         ingredients: [],
@@ -134,7 +130,7 @@ const Profile = () => {
         variables: { recipeId },
       });
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting recipe,err");
     }
   };
 
@@ -165,9 +161,9 @@ const Profile = () => {
                     {recipe.description}
                   </Typography>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
+                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
                   >
                     Delete
                   </Button>
@@ -183,7 +179,7 @@ const Profile = () => {
             {!userParam && (
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={handleOpen} // open dialog
               >
                 Add Recipe
@@ -200,14 +196,6 @@ const Profile = () => {
                   margin="normal"
                   value={recipeDetails.recipeName}
                   onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
-                />
-                 <TextField
-                  label="Recipe Author"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.recipeAuthor}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeAuthor: e.target.value })}
                 />
                 <TextField
                   label="Recipe Description"
