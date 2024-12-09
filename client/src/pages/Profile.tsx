@@ -55,10 +55,10 @@ const Profile = () => {
     tags: [],
   });
 
-  
 
-  const [addRecipe] = useMutation(ADD_RECIPE,{refetchQueries: [{ query: GET_ME }]});
-  const [removeRecipe] = useMutation(REMOVE_RECIPE,{refetchQueries: [{ query: GET_ME }]});
+
+  const [addRecipe] = useMutation(ADD_RECIPE, { refetchQueries: [{ query: GET_ME }] });
+  const [removeRecipe] = useMutation(REMOVE_RECIPE, { refetchQueries: [{ query: GET_ME }] });
 
   const user = data?.me || data?.user || {};
 
@@ -96,7 +96,7 @@ const Profile = () => {
       return;
     }
     try {
-      let data=await addRecipe({
+      let data = await addRecipe({
         variables: {
           input: {
             recipeName: recipeDetails.recipeName,
@@ -188,14 +188,14 @@ const Profile = () => {
 
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle>Add Recipe</DialogTitle>
-              <  DialogContent>
+              <DialogContent>
                 <TextField
                   label="Recipe Name"
                   fullWidth
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.recipeName}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
                 />
                 <TextField
                   label="Recipe Description"
@@ -203,7 +203,7 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.recipeDescription}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, recipeDescription: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeDescription: e.target.value })}
                 />
                 <TextField
                   label="Serving Size"
@@ -211,7 +211,7 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.servingSize}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
                 />
                 <TextField
                   label="Instructions (comma separated)"
@@ -219,7 +219,7 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.instructions.join(', ')}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(', ').map((instruction) => instruction.trim()) })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(', ').map((instruction: string) => instruction.trim()) })}
                 />
                 <TextField
                   label="Tags (comma separated)"
@@ -227,7 +227,7 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.tags.join(', ')}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag: string) => tag.trim()) })}
                 />
                 <TextField
                   label="Ingredients (comma separated)"
@@ -235,9 +235,8 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.ingredients.join(', ')}
-                  onChange={(e) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient) => ingredient.trim()) })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient: string) => ingredient.trim()) })}
                 />
-
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="secondary">
