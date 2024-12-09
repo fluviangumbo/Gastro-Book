@@ -36,7 +36,7 @@ interface AddRecipeArgs {
 }
 
 interface RemoveRecipeArgs {
-  recipeId: string;
+  recipeName: string;
 }
 
 const resolvers = {
@@ -116,14 +116,14 @@ const resolvers = {
         }
       ).populate('recipes');
     },
-    removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
+    removeRecipe: async (_parent: any, { recipeName }: RemoveRecipeArgs, context: any) => {
       const userId = context.user._id;
 
-      await Recipe.findByIdAndDelete(recipeId);
+      await Recipe.findByIdAndDelete(recipeName);
 
       return await User.findOneAndUpdate(
         { _id: userId },
-        { $pull: { recipes: { _id: recipeId } } },
+        { $pull: { recipes: { recipeName } } },
         { new: true }
       ).populate('recipes');
     },

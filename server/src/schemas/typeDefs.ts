@@ -9,18 +9,18 @@ const typeDefs = `
 
   type Recipe {
     _id: ID!
-    recipeName: String!
-    recipeAuthor: User!
-    recipeDescription: String!
-    servingSize: String!
-    ingredients: [String]!
-    instructions: [String]!
+    recipeName: String
+    recipeAuthor: User
+    recipeDescription: String
+    servingSize: String
+    ingredients: [String]
+    instructions: [String]
     tags: [String]
   }
 
   input RecipeInput {
     recipeName: String
-    recipeAuthor: ID
+    recipeAuthor: String
     recipeDescription: String
     servingSize: String
     ingredients: [String]
@@ -43,15 +43,15 @@ const typeDefs = `
     users: [User]
     user(username: String!): User
     me: User
-    recipes: [Recipe]!
-    recipe(recipeId: ID!): Recipe
+    recipes: [Recipe]
+    recipe(recipeId: String): Recipe
   }
 
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
-    addRecipe(input: RecipeInput!): User
-    removeRecipe(recipeId: ID!): User
+    addRecipe(input: RecipeInput): User
+    removeRecipe(recipeName: String): User
   }
 `;
 

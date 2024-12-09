@@ -38,6 +38,7 @@ const Profile = () => {
 
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
+    recipeId: string;
     recipeName: string;
     recipeDescription: string;
     servingSize: string;
@@ -47,6 +48,7 @@ const Profile = () => {
   }
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
+    recipeId: '',
     recipeName: '',
     recipeDescription: '',
     servingSize: '',
@@ -111,6 +113,7 @@ const Profile = () => {
       console.log(data);
 
       setRecipeDetails({
+        recipeId: '',
         recipeName: '',
         recipeDescription: '',
         servingSize: '',
@@ -124,15 +127,17 @@ const Profile = () => {
     }
   };
 
-  const handleDelete = async (recipeId: string) => {
-    try {
-      await removeRecipe({
-        variables: { recipeId },
-      });
-    } catch (err) {
-      console.error("Error deleting recipe,err");
-    }
-  };
+  const handleDelete = async (recipeName: string) => {
+      try {
+        let data = await removeRecipe({
+          variables: { recipeName },
+        });
+        console.log(data);
+        
+      } catch (err) {
+        console.error("Error deleting recipe,err");
+      }
+    };
 
 
 
@@ -155,15 +160,15 @@ const Profile = () => {
               user.recipes.map((recipe: any) => (
                 <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
                   <Typography variant="h6" color="text.secondary">
-                    {recipe.title}
+                    {recipe.recipeName}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
-                    {recipe.description}
+                    {recipe.recipeDescription}
                   </Typography>
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
+                    onClick={() => handleDelete(recipe.recipeName)} //Delete button functionality
                   >
                     Delete
                   </Button>
