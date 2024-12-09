@@ -35,9 +35,9 @@ interface AddRecipeArgs {
   }
 }
 
-interface RemoveRecipeArgs {
-  recipeName: string;
-}
+// interface RemoveRecipeArgs {
+//   recipeName: string;
+// }
 
 const resolvers = {
   Query: {
@@ -116,16 +116,26 @@ const resolvers = {
         }
       ).populate('recipes');
     },
-    removeRecipe: async (_parent: any, { recipeName }: RemoveRecipeArgs, context: any) => {
+    removeRecipe: async (_parent: any, { recipeId }: RecipeArgs , context: any) => {
+      console.log("server side recipeId: ", recipeId);
+      if(!context.user) {
+        throw new AuthenticationError('You need to be logged in to do that!');
+      }
       const userId = context.user._id;
 
-      await Recipe.findByIdAndDelete(recipeName);
+      let currentRecipe = await Recipe.findById(recipeId);
+      console.log("Current Recipe: ", currentRecipe);
 
-      return await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { recipes: { recipeName } } },
-        { new: true }
-      ).populate('recipes');
+      let currentId = currentRecipe?._id;
+
+      let user = await User.findOneAndUpdate(
+          { _id: userId }, 
+          { $pull: { recipes: currentId } },
+          { new: true }
+        ).populate('recipes');
+
+      console.log("Updated User: ", user);
+      return user;
     },
   },
 };

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 
 // import { Link } from 'react-router-dom';
 import { QUERY_RECIPES } from '../utils/queries.ts';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import RecipeList from '../components/RecipeList/index.tsx';
 // import SingleRecipe from './SingleRecipe.tsx';
 

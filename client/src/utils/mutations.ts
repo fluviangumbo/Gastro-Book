@@ -37,8 +37,8 @@ export const ADD_RECIPE = gql`
 `;
 
 export const REMOVE_RECIPE = gql`
-  mutation removeRecipe($recipeName: String) {
-    removeRecipe(recipeName: $recipeName) {
+  mutation removeRecipe($recipeId: String!) {
+    removeRecipe(recipeId: $recipeId) {
       username
       recipes {
         recipeName
