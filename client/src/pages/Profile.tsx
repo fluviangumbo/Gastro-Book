@@ -108,7 +108,7 @@ const Profile = () => {
           },
         },
       });
-      console.log(data);
+      console.log(data?.data.username)
 
       setRecipeDetails({
         recipeName: '',
@@ -127,7 +127,7 @@ const Profile = () => {
   const handleDelete = async (recipeId: string) => {
     try {
       await removeRecipe({
-        variables: { recipeId },
+        variables: { recipeId: recipeId },
       });
     } catch (err) {
       console.error("Error deleting recipe,err");
@@ -163,7 +163,7 @@ const Profile = () => {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
+                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
                   >
                     Delete
                   </Button>
