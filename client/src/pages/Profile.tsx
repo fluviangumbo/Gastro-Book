@@ -112,7 +112,7 @@ const Profile = () => {
           },
         },
       });
-      console.log(data);
+      console.log(data?.data.username)
 
       setRecipeDetails({
         recipeId: '',
