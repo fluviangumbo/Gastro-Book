@@ -137,9 +137,17 @@ const Profile = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="md">
-        <Box sx={{ py: 3 }}>
-          <Paper elevation={3} sx={{ p: 3, backgroundColor: 'background.paper' }}>
+      {/* <Container maxWidth="md"> */}
+        <Box 
+          sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: '100vh',
+          width: '200vh',
+          backgroundColor: '#BBE1C3', // Light green background
+          color: '#869D7A', // Muted green for text,
+          }}>
+          <Paper elevation={3} sx={{ backgroundColor: 'background.paper' }}>
             <Typography variant="h4" color="text.primary" gutterBottom>
               Viewing {userParam ? `${user.username}'s` : 'your'} profile.
             </Typography>
@@ -250,7 +258,7 @@ const Profile = () => {
 
           <Divider sx={{ my: 3 }} />
         </Box>
-      </Container>
+      {/* </Container> */}
     </ThemeProvider>
   );
 };
