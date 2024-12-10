@@ -1,9 +1,9 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { createTheme, ThemeProvider, Typography, Box, Divider, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useState } from 'react';
 import { ADD_RECIPE, REMOVE_RECIPE } from '../utils/mutations';
-import { GET_USER, GET_ME, } from '../utils/queries';
+import { GET_USER, GET_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 
 const theme = createTheme({
@@ -30,13 +30,14 @@ const theme = createTheme({
 
 const Profile = () => {
   const { username: userParam } = useParams();
+  const navigate = useNavigate(); // Hook for navigation
 
-  // Query to get user data (either the logged-in user or a specific user)
   const { loading, data } = useQuery(userParam ? GET_USER : GET_ME, {
     variables: { username: userParam },
   });
 
-  const [open, setOpen] = useState(false); // controls dialong visibility
+  const [open, setOpen] = useState(false);
+
   interface RecipeDetails {
     recipeName: string;
     recipeDescription: string;
@@ -54,8 +55,6 @@ const Profile = () => {
     instructions: '',
     tags: [],
   });
-
-
 
   const [addRecipe] = useMutation(ADD_RECIPE, { refetchQueries: [{ query: GET_ME }] });
   const [removeRecipe] = useMutation(REMOVE_RECIPE, { refetchQueries: [{ query: GET_ME }] });
@@ -96,7 +95,7 @@ const Profile = () => {
       return;
     }
     try {
-      let data = await addRecipe({
+      await addRecipe({
         variables: {
           input: {
             recipeName: recipeDetails.recipeName,
@@ -108,7 +107,6 @@ const Profile = () => {
           },
         },
       });
-      console.log(data?.data.username)
 
       setRecipeDetails({
         recipeName: '',
@@ -127,32 +125,33 @@ const Profile = () => {
   const handleDelete = async (recipeId: string) => {
     try {
       await removeRecipe({
-        variables: { recipeId: recipeId },
+        variables: { recipeId },
       });
     } catch (err) {
-      console.error("Error deleting recipe,err");
+      console.error("Error deleting recipe", err);
     }
   };
 
+  const handleViewRecipe = (recipeId: string) => {
+    navigate(`/recipe/${recipeId}`); // Navigate to the recipe details page
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Container maxWidth="md"> */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
           height: '100vh',
           width: '200vh',
-          backgroundColor: '#BBE1C3', // Light green background
-          color: '#869D7A', // Muted green for text,
+          backgroundColor: '#BBE1C3',
+          color: '#869D7A',
         }}>
         <Paper elevation={3} sx={{ backgroundColor: 'background.paper' }}>
           <Typography variant="h4" color="text.primary" gutterBottom>
             Viewing {userParam ? `${user.username}'s` : 'your'} profile.
           </Typography>
 
-          {/* Displaying user's recipes */}
           <Typography variant="h6" color="text.primary" gutterBottom>
             Your Recipes
           </Typography>
@@ -162,18 +161,24 @@ const Profile = () => {
               <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
                 <Typography variant="h6" color="text.secondary">
                   {recipe.recipeName}
-                  {recipe.recipeName}
                 </Typography>
                 <Typography variant="body2" color="text.primary">
-                  {recipe.recipeDescription}
                   {recipe.recipeDescription}
                 </Typography>
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleDelete(recipe._id)} //Delete button functionality
+                  onClick={() => handleDelete(recipe._id)}
                 >
                   Delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleViewRecipe(recipe._id)}
+                  sx={{ ml: 1 }}
+                >
+                  View Recipe
                 </Button>
               </Paper>
             ))
@@ -183,12 +188,11 @@ const Profile = () => {
             </Typography>
           )}
 
-          {/* Add Recipe button */}
           {!userParam && (
             <Button
               variant="contained"
               color="secondary"
-              onClick={handleOpen} // open dialog
+              onClick={handleOpen}
             >
               Add Recipe
             </Button>
@@ -250,7 +254,7 @@ const Profile = () => {
               <Button onClick={handleClose} color="secondary">
                 Cancel
               </Button>
-              <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
+              <Button onClick={handleSubmit} color="primary">
                 Add Recipe
               </Button>
             </DialogActions>
@@ -259,7 +263,6 @@ const Profile = () => {
 
         <Divider sx={{ my: 3 }} />
       </Box>
-      {/* </Container> */}
     </ThemeProvider>
   );
 };
