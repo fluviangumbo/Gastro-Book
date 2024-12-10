@@ -35,12 +35,12 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 ## Credits
 
-https://github.com/fluviangumbo
-https://github.com/RStuckey1
-https://github.com/Riesyn
-https://github.com/Wyatt7709
-https://github.com/JosephEyler1
-
+- [fluviangumbo](https://github.com/fluviangumbo)
+- [RStuckey1](https://github.com/RStuckey1)
+- [Riesyn](https://github.com/Riesyn)
+- [Wyatt7709](https://github.com/Wyatt7709)
+- [JosephEyler1](https://github.com/JosephEyler1)
+- 
 ## License
 
 The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
