@@ -35,9 +35,9 @@ interface AddRecipeArgs {
   }
 }
 
-// interface RemoveRecipeArgs {
-//   recipeName: string;
-// }
+interface RemoveRecipeArgs {
+  recipeId: string;
+}
 
 const resolvers = {
   Query: {
@@ -101,7 +101,9 @@ const resolvers = {
       return { token, user };
     },
     addRecipe: async (_parent: any, { input }: AddRecipeArgs, context: any) => {
+      console.log(context.user);
       const userId = context.user._id;
+      console.log(userId)
 
       const newRecipe = await Recipe.create({ ...input, recipeAuthor: userId });
 
@@ -123,10 +125,7 @@ const resolvers = {
       }
       const userId = context.user._id;
 
-      let currentRecipe = await Recipe.findById(recipeId);
-      console.log("Current Recipe: ", currentRecipe);
-
-      let currentId = currentRecipe?._id;
+      await Recipe.findByIdAndDelete(recipeId);
 
       let user = await User.findOneAndUpdate(
           { _id: userId }, 

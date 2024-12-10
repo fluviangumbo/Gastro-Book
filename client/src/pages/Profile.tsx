@@ -38,7 +38,6 @@ const Profile = () => {
 
   const [open, setOpen] = useState(false); // controls dialong visibility
   interface RecipeDetails {
-    recipeId: string;
     recipeName: string;
     recipeDescription: string;
     servingSize: string;
@@ -48,7 +47,6 @@ const Profile = () => {
   }
 
   const [recipeDetails, setRecipeDetails] = useState<RecipeDetails>({
-    recipeId: '',
     recipeName: '',
     recipeDescription: '',
     servingSize: '',
@@ -115,7 +113,6 @@ const Profile = () => {
       console.log(data);
 
       setRecipeDetails({
-        recipeId: '',
         recipeName: '',
         recipeDescription: '',
         servingSize: '',
