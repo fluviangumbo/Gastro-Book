@@ -114,7 +114,7 @@ const resolvers = {
           new: true,
           runValidators: true,
         }
-      ).populate('recipes');
+      ).populate('recipes'); // .populate() is how we avoid null errors with non-nullable fields
     },
     removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
       const userId = context.user._id;

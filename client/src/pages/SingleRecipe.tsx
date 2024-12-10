@@ -35,11 +35,11 @@ const SingleRecipe = () => {
       <Box>
         <List>
             {
-                recipe.ingredients.map((ingredient: String, i: number) => {
+                recipe.ingredients.map((ingredient: String, i: number) => (
                     <ListItem disablePadding key={i}>
                         <ListItemText>{ingredient}</ListItemText>
                     </ListItem>
-                })
+                ))
             }
         </List>
       </Box>
@@ -47,11 +47,11 @@ const SingleRecipe = () => {
       <h2>Instructions:</h2>
       <List>
         {
-            recipe.instructions.map((instruction: String, i: number) => {
+            recipe.instructions.map((instruction: String, i: number) => (
                 <ListItem>
                     <ListItemText>{i+1}. {instruction}</ListItemText>
                 </ListItem>
-            })
+            ))
         }
       </List>
     </div>

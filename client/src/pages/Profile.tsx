@@ -41,8 +41,8 @@ const Profile = () => {
     recipeName: string;
     recipeDescription: string;
     servingSize: string;
-    ingredients: string[];
-    instructions: string[];
+    ingredients: string;
+    instructions: string;
     tags: string[];
   }
 
@@ -50,8 +50,8 @@ const Profile = () => {
     recipeName: '',
     recipeDescription: '',
     servingSize: '',
-    ingredients: [],
-    instructions: [],
+    ingredients: '',
+    instructions: '',
     tags: [],
   });
 
@@ -102,8 +102,8 @@ const Profile = () => {
             recipeName: recipeDetails.recipeName,
             recipeDescription: recipeDetails.recipeDescription,
             servingSize: recipeDetails.servingSize,
-            ingredients: recipeDetails.ingredients,
-            instructions: recipeDetails.instructions.filter(Boolean),
+            ingredients: recipeDetails.ingredients.split(', ').map((ingredient: string) => ingredient.trim()),
+            instructions: recipeDetails.instructions.split(', ').map((instruction: string) => instruction.trim()).filter(Boolean),
             tags: recipeDetails.tags.filter(Boolean),
           },
         },
@@ -114,8 +114,8 @@ const Profile = () => {
         recipeName: '',
         recipeDescription: '',
         servingSize: '',
-        ingredients: [],
-        instructions: [],
+        ingredients: '',
+        instructions: '',
         tags: [],
       });
       handleClose();
@@ -155,15 +155,15 @@ const Profile = () => {
               user.recipes.map((recipe: any) => (
                 <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
                   <Typography variant="h6" color="text.secondary">
-                    {recipe.title}
+                    {recipe.recipeName}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
-                    {recipe.description}
+                    {recipe.recipeDescription}
                   </Typography>
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleDelete(recipe.recipeId)} //Delete button functionality
+                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
                   >
                     Delete
                   </Button>
@@ -218,8 +218,8 @@ const Profile = () => {
                   fullWidth
                   variant="outlined"
                   margin="normal"
-                  value={recipeDetails.instructions.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(', ').map((instruction: string) => instruction.trim()) })}
+                  value={recipeDetails.instructions}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value })}
                 />
                 <TextField
                   label="Tags (comma separated)"
@@ -234,8 +234,8 @@ const Profile = () => {
                   fullWidth
                   variant="outlined"
                   margin="normal"
-                  value={recipeDetails.ingredients.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient: string) => ingredient.trim()) })}
+                  value={recipeDetails.ingredients}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value })}
                 />
               </DialogContent>
               <DialogActions>
