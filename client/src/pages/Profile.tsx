@@ -108,7 +108,7 @@ const Profile = () => {
           },
         },
       });
-      console.log(data);
+      console.log(data?.data.username)
 
       setRecipeDetails({
         recipeName: '',
@@ -127,14 +127,12 @@ const Profile = () => {
   const handleDelete = async (recipeId: string) => {
     try {
       await removeRecipe({
-        variables: { recipeId },
+        variables: { recipeId: recipeId },
       });
     } catch (err) {
       console.error("Error deleting recipe,err");
     }
   };
-
-
 
 
   return (
@@ -156,8 +154,10 @@ const Profile = () => {
                 <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
                   <Typography variant="h6" color="text.secondary">
                     {recipe.recipeName}
+                    {recipe.recipeName}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
+                    {recipe.recipeDescription}
                     {recipe.recipeDescription}
                   </Typography>
                   <Button

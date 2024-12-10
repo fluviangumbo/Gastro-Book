@@ -1,9 +1,11 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { FixedSizeList } from 'react-window';
+
 
 interface RecipeSummary {
   _id: string;
@@ -23,7 +25,8 @@ interface RecipeListProps {
 function renderRow(props: any) {
   const { data, index } = props;
   return (
-    <ListItem key={index} component="div" disablePadding>
+    <List>
+    <ListItem key={index} component="div" disablePadding alignItems="flex-start">
 
       <Typography variant="h6">{data[index].recipeName}</Typography>
       <Typography>by {data[index].recipeAuthor?.username}</Typography>
@@ -40,6 +43,7 @@ function renderRow(props: any) {
         </Link>
       </ListItemButton>
     </ListItem>
+    </List>
   );
 }
 
@@ -59,11 +63,11 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes }) => (
   >
     <FixedSizeList
       height={400}
-      width={360}
+      width={600}
       itemData={recipes}
       itemSize={46}
       itemCount={recipes.length}
-      overscanCount={5}
+      overscanCount={7}
     >
       {renderRow}
     </FixedSizeList>

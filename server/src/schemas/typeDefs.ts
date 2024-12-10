@@ -43,7 +43,7 @@ const typeDefs = `
     users: [User]
     user(username: String!): User
     me: User
-    recipes: [Recipe]!
+    recipes: [Recipe]
     recipe(recipeId: ID!): Recipe
   }
 

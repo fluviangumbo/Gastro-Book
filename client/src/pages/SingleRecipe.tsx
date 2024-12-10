@@ -33,6 +33,7 @@ const SingleRecipe = () => {
       <p>Serving Size: {recipe.servingSize}</p>
       <Divider />
       <Box>
+        <h2>Ingredients:</h2>
         <List>
             {
                 recipe.ingredients.map((ingredient: String, i: number) => (
