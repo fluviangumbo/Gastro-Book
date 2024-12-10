@@ -12,38 +12,67 @@ import RecipeList from '../components/RecipeList/index.tsx';
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_RECIPES);
-
   const recipes = data?.recipes || [];
 
   return (
-   
+      <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: '#BBE1C3',
+        color: '#2E5230',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '2rem',
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h1"
+        gutterBottom
+        sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
+      >
+        Recipes
+      </Typography>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          width: '200vh',
-          backgroundColor: '#BBE1C3', // Light green background
-          color: '#869D7A', // Muted green for text,
+          width: '80%',
+          maxWidth: '1200px',
+          backgroundColor: '#FFFFFF',
+          borderRadius: '8px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          padding: '1rem',
+          maxHeight: '70vh', // Limit height for scrolling
+          overflowY: 'auto', // Enable vertical scrolling
         }}
       >
-        <Typography variant="h3" component="h3" gutterBottom>
-          Recipes
-        </Typography>
         {loading ? (
-          <Typography>
-            Loading...
-          </Typography>
+          <Typography sx={{ textAlign: 'center' }}>Loading...</Typography>
+        ) : recipes.length > 0 ? (
+          recipes.map((recipe: any, index: number) => (
+            <Box
+              key={index}
+              sx={{
+                padding: '1rem',
+                borderBottom: '1px solid #E0E0E0',
+                '&:last-child': {
+                  borderBottom: 'none',
+                },
+              }}
+            >
+              <Typography variant="h6">{recipe.name}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {recipe.description}
+              </Typography>
+            </Box>
+          ))
         ) : (
-          <>
-         
-          <RecipeList recipes={recipes}/>
-          </>
-          )}
+          <Typography>No recipes available.</Typography>
+        )}
       </Box>
-    
+    </Box>
   );
 };
+
 
 export default Home;
