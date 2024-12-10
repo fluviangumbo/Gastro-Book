@@ -55,6 +55,8 @@ const Profile = () => {
     tags: [],
   });
 
+  const [tempIngredients, setTempIngredients] = useState<string>('');
+
 
 
   const [addRecipe] = useMutation(ADD_RECIPE, { refetchQueries: [{ query: GET_ME }] });
@@ -108,7 +110,7 @@ const Profile = () => {
           },
         },
       });
-      console.log(data?.data.username)
+      console.log(data);
 
       setRecipeDetails({
         recipeName: '',
@@ -125,14 +127,32 @@ const Profile = () => {
   };
 
   const handleDelete = async (recipeId: string) => {
-    try {
-      await removeRecipe({
-        variables: { recipeId: recipeId },
-      });
-    } catch (err) {
-      console.error("Error deleting recipe,err");
-    }
-  };
+    console.log("Recipe ID: ", recipeId);
+      try {
+        let data = await removeRecipe({
+          variables: { recipeId },
+        });
+        console.log(data);
+        
+      } catch (err) {
+        console.error("Error deleting recipe,err");
+      }
+    };
+
+  const handleIngredientsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    // Split the ingredients by comma and trim any extra whitespace
+    let ingredientArry = e.target.value.split(',').map((ingredient: string) => ingredient.trim());
+    // let ingredientArry = tempIngredients.split(',');
+
+
+    // Update the state with the new ingredients
+
+    setRecipeDetails({ ...recipeDetails, ingredients: ingredientArry });
+   // setRecipeDetails({ ...recipeDetails})        
+  }
+
+
 
 
   return (
@@ -162,7 +182,6 @@ const Profile = () => {
                     variant="contained"
                     color="secondary"
                     onClick={() => handleDelete(recipe._id)} //Delete button functionality
-
                   >
                     Delete
                   </Button>
@@ -234,7 +253,7 @@ const Profile = () => {
                   variant="outlined"
                   margin="normal"
                   value={recipeDetails.ingredients.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient: string) => ingredient.trim()) })}
+                  onChange={handleIngredientsChange}
                 />
               </DialogContent>
               <DialogActions>

@@ -59,6 +59,16 @@ const Header = () => {
                     {Auth.loggedIn() ? (
                         <>
                             <Button
+                                onClick={() => navigate('/')}
+                                color="secondary"
+                                variant="contained"
+
+                                href="/"
+                                sx={{ margin: '0 0.5rem' }}
+                            >
+                                Home Page
+                            </Button>
+                            <Button
                                 onClick={() => navigate('/profile')}
                                 color="secondary"
                                 variant="contained"
@@ -77,15 +87,7 @@ const Header = () => {
                             >
                                 Logout
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-
-                                href="/recipes" //THIS IS WRONG ROUTE
-                                sx={{ margin: '0 0.5rem' }}
-                                >
-                                Add Recipe
-                            </Button>
+                           
                         </>
                     ) : (
                         <>

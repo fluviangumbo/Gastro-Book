@@ -118,16 +118,23 @@ const resolvers = {
         }
       ).populate('recipes');
     },
-    removeRecipe: async (_parent: any, { recipeId }: RemoveRecipeArgs, context: any) => {
+    removeRecipe: async (_parent: any, { recipeId }: RecipeArgs , context: any) => {
+      console.log("server side recipeId: ", recipeId);
+      if(!context.user) {
+        throw new AuthenticationError('You need to be logged in to do that!');
+      }
       const userId = context.user._id;
 
       await Recipe.findByIdAndDelete(recipeId);
 
-      return await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { recipes: { _id: recipeId } } },
-        { new: true }
-      ).populate('recipes');
+      let user = await User.findOneAndUpdate(
+          { _id: userId }, 
+          { $pull: { recipes: currentId } },
+          { new: true }
+        ).populate('recipes');
+
+      console.log("Updated User: ", user);
+      return user;
     },
   },
 };
