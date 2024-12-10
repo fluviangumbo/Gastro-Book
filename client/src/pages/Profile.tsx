@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { createTheme, ThemeProvider, Container, Typography, Box, Divider, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { createTheme, ThemeProvider, Typography, Box, Divider, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useState } from 'react';
 import { ADD_RECIPE, REMOVE_RECIPE } from '../utils/mutations';
 import { GET_USER, GET_ME, } from '../utils/queries';
@@ -41,8 +41,8 @@ const Profile = () => {
     recipeName: string;
     recipeDescription: string;
     servingSize: string;
-    ingredients: string[];
-    instructions: string[];
+    ingredients: string;
+    instructions: string;
     tags: string[];
   }
 
@@ -50,8 +50,8 @@ const Profile = () => {
     recipeName: '',
     recipeDescription: '',
     servingSize: '',
-    ingredients: [],
-    instructions: [],
+    ingredients: '',
+    instructions: '',
     tags: [],
   });
 
@@ -102,8 +102,8 @@ const Profile = () => {
             recipeName: recipeDetails.recipeName,
             recipeDescription: recipeDetails.recipeDescription,
             servingSize: recipeDetails.servingSize,
-            ingredients: recipeDetails.ingredients,
-            instructions: recipeDetails.instructions.filter(Boolean),
+            ingredients: recipeDetails.ingredients.split(', ').map((ingredient: string) => ingredient.trim()),
+            instructions: recipeDetails.instructions.split(', ').map((instruction: string) => instruction.trim()).filter(Boolean),
             tags: recipeDetails.tags.filter(Boolean),
           },
         },
@@ -114,8 +114,8 @@ const Profile = () => {
         recipeName: '',
         recipeDescription: '',
         servingSize: '',
-        ingredients: [],
-        instructions: [],
+        ingredients: '',
+        instructions: '',
         tags: [],
       });
       handleClose();
@@ -137,120 +137,129 @@ const Profile = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="md">
-        <Box sx={{ py: 3 }}>
-          <Paper elevation={3} sx={{ p: 3, backgroundColor: 'background.paper' }}>
-            <Typography variant="h4" color="text.primary" gutterBottom>
-              Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+      {/* <Container maxWidth="md"> */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: '100vh',
+          width: '200vh',
+          backgroundColor: '#BBE1C3', // Light green background
+          color: '#869D7A', // Muted green for text,
+        }}>
+        <Paper elevation={3} sx={{ backgroundColor: 'background.paper' }}>
+          <Typography variant="h4" color="text.primary" gutterBottom>
+            Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+          </Typography>
+
+          {/* Displaying user's recipes */}
+          <Typography variant="h6" color="text.primary" gutterBottom>
+            Your Recipes
+          </Typography>
+
+          {user.recipes && user.recipes.length > 0 ? (
+            user.recipes.map((recipe: any) => (
+              <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
+                <Typography variant="h6" color="text.secondary">
+                  {recipe.recipeName}
+                  {recipe.recipeName}
+                </Typography>
+                <Typography variant="body2" color="text.primary">
+                  {recipe.recipeDescription}
+                  {recipe.recipeDescription}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDelete(recipe._id)} //Delete button functionality
+                >
+                  Delete
+                </Button>
+              </Paper>
+            ))
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+              You have no recipes yet.
             </Typography>
+          )}
 
-            {/* Displaying user's recipes */}
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              Your Recipes
-            </Typography>
+          {/* Add Recipe button */}
+          {!userParam && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleOpen} // open dialog
+            >
+              Add Recipe
+            </Button>
+          )}
 
-            {user.recipes && user.recipes.length > 0 ? (
-              user.recipes.map((recipe: any) => (
-                <Paper key={recipe._id} sx={{ p: 2, marginBottom: 2 }}>
-                  <Typography variant="h6" color="text.secondary">
-                    {recipe.recipeName}
-                  </Typography>
-                  <Typography variant="body2" color="text.primary">
-                    {recipe.recipeDescription}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => handleDelete(recipe._id)} //Delete button functionality
-
-                  >
-                    Delete
-                  </Button>
-                </Paper>
-              ))
-            ) : (
-              <Typography variant="body1" color="text.secondary">
-                You have no recipes yet.
-              </Typography>
-            )}
-
-            {/* Add Recipe button */}
-            {!userParam && (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleOpen} // open dialog
-              >
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Add Recipe</DialogTitle>
+            <DialogContent>
+              <TextField
+                label="Recipe Name"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.recipeName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
+              />
+              <TextField
+                label="Recipe Description"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.recipeDescription}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeDescription: e.target.value })}
+              />
+              <TextField
+                label="Serving Size"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.servingSize}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
+              />
+              <TextField
+                label="Instructions (comma separated)"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.instructions}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value })}
+              />
+              <TextField
+                label="Tags (comma separated)"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.tags.join(', ')}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag: string) => tag.trim()) })}
+              />
+              <TextField
+                label="Ingredients (comma separated)"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                value={recipeDetails.ingredients}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value })}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="secondary">
+                Cancel
+              </Button>
+              <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
                 Add Recipe
               </Button>
-            )}
+            </DialogActions>
+          </Dialog>
+        </Paper>
 
-            <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>Add Recipe</DialogTitle>
-              <DialogContent>
-                <TextField
-                  label="Recipe Name"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.recipeName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeName: e.target.value })}
-                />
-                <TextField
-                  label="Recipe Description"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.recipeDescription}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, recipeDescription: e.target.value })}
-                />
-                <TextField
-                  label="Serving Size"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.servingSize}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, servingSize: e.target.value })}
-                />
-                <TextField
-                  label="Instructions (comma separated)"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.instructions.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, instructions: e.target.value.split(', ').map((instruction: string) => instruction.trim()) })}
-                />
-                <TextField
-                  label="Tags (comma separated)"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.tags.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, tags: e.target.value.split(',').map((tag: string) => tag.trim()) })}
-                />
-                <TextField
-                  label="Ingredients (comma separated)"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  value={recipeDetails.ingredients.join(', ')}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipeDetails({ ...recipeDetails, ingredients: e.target.value.split(',').map((ingredient: string) => ingredient.trim()) })}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button onClick={handleSubmit} color="primary"> {/* Submit button */}
-                  Add Recipe
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Paper>
-
-          <Divider sx={{ my: 3 }} />
-        </Box>
-      </Container>
+        <Divider sx={{ my: 3 }} />
+      </Box>
+      {/* </Container> */}
     </ThemeProvider>
   );
 };

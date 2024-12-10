@@ -81,10 +81,10 @@ const Header = () => {
                                 variant="contained"
                                 color="secondary"
 
-                                href="/recipes" //THIS IS WRONG ROUTE
+                                href="/" //THIS IS WRONG ROUTE
                                 sx={{ margin: '0 0.5rem' }}
                                 >
-                                Add Recipe
+                                Go to EXPO(main page)
                             </Button>
                         </>
                     ) : (
