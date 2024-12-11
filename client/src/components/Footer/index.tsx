@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
     <ThemeProvider theme={theme}>  
     <Box
       sx={{
-        width: '100%',
+        display: 'flex',
         marginTop: 'auto',
         backgroundColor: 'primary.main',
         padding: 4,
