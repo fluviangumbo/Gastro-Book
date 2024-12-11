@@ -28,7 +28,7 @@ const Home = () => {
           color: '#869D7A', // Muted green for text,
         }}
       >
-        <Typography variant="h3" component="h3" gutterBottom>
+        <Typography variant="h1" component="h3">
           Recipes
         </Typography>
         {loading ? (
