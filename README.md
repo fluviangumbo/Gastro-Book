@@ -6,13 +6,7 @@
 - Our motivation for this project was to create a fun and easy way for users to create and share recipes with others!
 - We built this project in order to gain more experience with various programming techniques, as well as learning how to work and coordinate well with other fellow programmers!
 - The problem this application sought to solve was the issue of not being able to create online recipes in a simple way, as well as going through the trouble of finding the right wensite to share them on.
-- 
-
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+- We learned how to use Material UI, as well as how to be aware of how to spot our mistakes when using various libraries and frameworks. 
 
 ## Table of Contents
 - [Description](#description)
@@ -29,11 +23,13 @@ What are the steps required to install your project? Provide a step-by-step desc
 ## Features
 
 - Creating and logging in with a custom user
+- Viewing many online recipes for your favorite meals
 - Creating and/or deleting recipes
+- Saving recipes for future viewing
 
 ## Usage
 
-Can be used to create and share recipes with other users of Gastro Book!
+Can be used to create and share recipes with other users of Gastro Book! (in future planning)
 
 
     ```md
