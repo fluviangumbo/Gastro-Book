@@ -29,7 +29,7 @@ function renderRow(props: any) {
     <List>
     <ListItem key={index} component="div" disablePadding alignItems="flex-start">
 
-      <Typography variant="h2">{data[index].recipeName}</Typography>
+      <Typography variant="h4">{data[index].recipeName}</Typography>
       <Typography>by {data[index].recipeAuthor?.username}</Typography>
       <Typography>Serving Size: {data[index].servingSize}</Typography>
       {data[index].tags?.map((tag: string, tagIndex: number) => (
@@ -65,7 +65,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes }) => (
   >
     <FixedSizeList
       height={800}
-      width={2000}
+      width={1000}
       itemData={recipes}
       itemSize={46}
       itemCount={recipes.length}
