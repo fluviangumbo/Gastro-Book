@@ -15,7 +15,7 @@ const Home = () => {
   const recipes = data?.recipes || [];
 
   return (
-      <Box
+    <Box
       sx={{
         minHeight: '100vh',
         backgroundColor: '#BBE1C3',
@@ -49,23 +49,8 @@ const Home = () => {
         {loading ? (
           <Typography sx={{ textAlign: 'center' }}>Loading...</Typography>
         ) : recipes.length > 0 ? (
-          recipes.map((recipe: any, index: number) => (
-            <Box
-              key={index}
-              sx={{
-                padding: '1rem',
-                borderBottom: '1px solid #E0E0E0',
-                '&:last-child': {
-                  borderBottom: 'none',
-                },
-              }}
-            >
-              <Typography variant="h6">{recipe.name}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {recipe.description}
-              </Typography>
-            </Box>
-          ))
+
+          <RecipeList recipes={recipes} />
         ) : (
           <Typography>No recipes available.</Typography>
         )}
