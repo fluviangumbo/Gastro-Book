@@ -33,7 +33,7 @@ Can be used to create and share recipes with other users of Gastro Book! (in fut
 
 
     ```md
-    ![alt text](assets/images/screenshot.png)
+    ![proj3screenshot_720](https://github.com/user-attachments/assets/c12a7d48-5f65-4ab4-88ab-4f40d0b0d5d8)
     ```
 
 ## Credits
