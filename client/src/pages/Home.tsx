@@ -20,6 +20,7 @@ const Home = () => {
       <Box
         sx={{
           display: 'flex',
+          marginLeft: '100px',
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
